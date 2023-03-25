@@ -1,0 +1,38 @@
+.post {
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--twitter-background);
+    padding-bottom: 10px;
+   
+}
+
+.post-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.post-body > img {
+    border-radius: 20px;
+}
+
+.post-options {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+
+.post-headerText > h3 {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.post-headerDesc {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.post-avatar {
+    padding: 20px;
+}

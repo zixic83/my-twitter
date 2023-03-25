@@ -1,0 +1,15 @@
+body {
+    --twitter-color:#50b7f5;
+    --twitter-background:#e6ecf0;
+}
+
+.app {
+    display: flex;
+    /* let component use up all the page */
+    height: 100vh;
+    max-width: 1300px;
+     /* center elements */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 10px;
+}
