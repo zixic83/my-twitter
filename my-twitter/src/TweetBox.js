@@ -1,17 +1,30 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./TweetBox.css";
 import { Avatar, Button } from "@mui/material";
 
-function TweetBox() {
-  const [tweetText, setTweetText] = useState()
-  const [tweetMedia, setTweetMedia] = useState()
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const tweetContent = { tweetText, tweetMedia }
-    setTweetMedia('')
-    setTweetText('')
+function TweetBox({setFetchedData}) {
+  const [tweetText, setTweetText] = useState("");
+  const [tweetMedia, setTweetMedia] = useState("");
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    // content to be posted
+    const tweetContent = { tweetText, tweetMedia };
+
+    axios
+      .post("http://localhost:5000/tweets", { tweetContent })
+      .then((res) => {
+        console.log(res.data);
+        setFetchedData(res.data);
+      });
+
+    // clear form
+    setTweetMedia("");
+    setTweetText("");
   }
+
+  
 
   return (
     <div className="tweetBox">
