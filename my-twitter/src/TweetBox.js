@@ -15,7 +15,6 @@ function TweetBox({setFetchedData}) {
     axios
       .post("http://localhost:5000/tweets", { tweetContent })
       .then((res) => {
-        console.log(res.data);
         setFetchedData(res.data);
       });
 
