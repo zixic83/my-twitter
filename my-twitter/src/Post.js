@@ -3,16 +3,17 @@ import TimeAgo from "react-timeago";
 import "./Post.css";
 import {
   ChatBubbleBottomCenterIcon,
-  HeartIcon,
+  TrashIcon,
+  PencilSquareIcon
 } from "@heroicons/react/24/outline";
 
 
 function Post({ displayName, text, image, timestamp, avatar }) {
   return (
-    <div className="flex flex-col space-x-3 border-y p-5 border-gray-100">
+    <div className="flex flex-col space-x-3 border-y p-5 border-gray-100 max-w-xl">
       <div className="flex space-x-3 h-auto">
         <img
-          className="h-10 w-10 object-cover rounded-full"
+          className="h-10 w-10 object-cover shrink-0 rounded-full"
           alt=""
           src={avatar}
         />
@@ -32,7 +33,10 @@ function Post({ displayName, text, image, timestamp, avatar }) {
           <ChatBubbleBottomCenterIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
         </div>
         <div>
-          <HeartIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
+          <PencilSquareIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
+        </div>
+        <div>
+          <TrashIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
         </div>
       </div>
     </div>

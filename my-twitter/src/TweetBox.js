@@ -24,7 +24,7 @@ function TweetBox({ setFetchedData }) {
   }
 
   return (
-    <div className="tweetBox flex space-x-2 p-5">
+    <div className="tweetBox flex space-x-2 p-5 max-w-xl">
       <img
         className="mt-4 h-14 w-14 object-cover rounded-full"
         alt=""
@@ -51,7 +51,11 @@ function TweetBox({ setFetchedData }) {
             <PhotoIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
             <FaceSmileIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
           </div>
-          <Button disabled={!tweetText} className="tweetBox-button disabled:opacity-40" type="submit">
+          <Button
+            disabled={!tweetText}
+            className="tweetBox-button disabled:opacity-40"
+            type="submit"
+          >
             Tweet
           </Button>
         </div>
