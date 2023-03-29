@@ -1,27 +1,38 @@
 import React from "react";
+import TimeAgo from "react-timeago";
 import "./Post.css";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import {
+  ChatBubbleBottomCenterIcon,
+  HeartIcon,
+} from "@heroicons/react/24/outline";
 
-function Post({ displayName, text, image, avatar }) {
+
+function Post({ displayName, text, image, timestamp, avatar }) {
   return (
-    <div className="post">
-      <div className="post-avatar">
-        <img className="h-14 w-14 object-cover rounded-full" alt= '' src={avatar} />
-      </div>
-      <div className="post-body">
-        <div className="post-header">
-          <div className="post-headerText">
-            <h3>{displayName}</h3>
+    <div className="flex flex-col space-x-3 border-y p-5 border-gray-100">
+      <div className="flex space-x-3 h-auto">
+        <img
+          className="h-10 w-10 object-cover rounded-full"
+          alt=""
+          src={avatar}
+        />
+
+        <div>
+          <div className="flex items-center space-x-1">
+            <h3 className="mr-1 font-bold">{displayName}</h3>
+            <TimeAgo date={timestamp} className="text-sm text-gray-500" />
           </div>
-          <div className="post-headerDesc">
-            <p>{text}</p>
-          </div>
+          <p className="pt-1">{text}</p>
+          <img className="imgFig p-1" src={image} alt="" />
         </div>
-        <img src={image} alt="" />
-        <div className="post-options">
-          <ChatBubbleOutlineIcon fontSize="small" />
-          <FavoriteBorderIcon fontSize="small" />
+      </div>
+
+      <div className="mt-5 flex justify-around">
+        <div>
+          <ChatBubbleBottomCenterIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
+        </div>
+        <div>
+          <HeartIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
         </div>
       </div>
     </div>

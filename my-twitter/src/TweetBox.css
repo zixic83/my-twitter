@@ -1,6 +1,4 @@
-.tweetBox {
-    border-bottom: 8px solid var(--twitter-background);
-}
+
 
 .tweetBox-button {
     background-color: var(--twitter-color) !important;

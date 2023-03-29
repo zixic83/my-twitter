@@ -7,6 +7,7 @@ import { PhotoIcon, FaceSmileIcon } from "@heroicons/react/24/outline";
 function TweetBox({ setFetchedData }) {
   const [tweetText, setTweetText] = useState("");
   const [tweetMedia, setTweetMedia] = useState("");
+  const [timestamp, setTimestamp] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
