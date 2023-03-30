@@ -1,5 +1,5 @@
 # my-twitter
-- delete tweets
+- constrain photo size
 - update tweets
 - comment
 - widgets

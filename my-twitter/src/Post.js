@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 
-function Post({ displayName, text, image, timestamp, avatar }) {
+function Post({ displayName, text, image, timestamp, avatar, id, deletePost }) {
   return (
     <div className="flex flex-col space-x-3 border-y p-5 border-gray-100 max-w-xl">
       <div className="flex space-x-3 h-auto">
@@ -36,7 +36,7 @@ function Post({ displayName, text, image, timestamp, avatar }) {
           <PencilSquareIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
         </div>
         <div>
-          <TrashIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
+          <TrashIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" onClick={()=>deletePost(id)}/>
         </div>
       </div>
     </div>
