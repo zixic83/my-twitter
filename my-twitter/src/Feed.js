@@ -14,13 +14,13 @@ function Feed() {
     const allTweets = await axios.get("http://localhost:5000/allTweets");
     setFetchedData(allTweets.data)
     if (Object.keys(fetchedData).length !== 0) {
-      console.log(fetchedData)
       fetchedData
         .slice(0)
         .reverse()
         .map((post) => {
           return (
             <Post
+              key={post.timestamp}
               displayName="大器晩成"
               text={post.tweetText}
               image={post.tweetMedia}
@@ -48,6 +48,7 @@ function Feed() {
             .map((post) => {
               return (
                 <Post
+                  key={post.timestamp}
                   displayName="大器晩成"
                   text={post.tweetText}
                   image={post.tweetMedia}

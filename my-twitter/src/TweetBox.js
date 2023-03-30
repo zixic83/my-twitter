@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./TweetBox.css";
-import { Button } from "@mui/material";
+import { Button,Popover } from "@mui/material";
 import { PhotoIcon, FaceSmileIcon } from "@heroicons/react/24/outline";
+import EmojiPicker from "emoji-picker-react";
+
 
 function TweetBox({ setFetchedData }) {
   const [tweetText, setTweetText] = useState("");
   const [tweetMedia, setTweetMedia] = useState("");
-  const [timestamp, setTimestamp] = useState("");
+  const [anchor, setAnchor] = useState(null);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -21,6 +23,18 @@ function TweetBox({ setFetchedData }) {
     // clear form
     setTweetMedia("");
     setTweetText("");
+  }
+
+const handleOpen = (e) => {
+  setAnchor(e.currentTarget);
+};
+
+const handleClose = () => {
+  setAnchor(null);
+  };
+
+  function onEmojiClick(emojiData,e) {
+    setTweetText(tweetText + emojiData.emoji);
   }
 
   return (
@@ -49,7 +63,26 @@ function TweetBox({ setFetchedData }) {
         <div className="flex items-center ">
           <div className="flex flex-1 items-center space-x-2 text-blue-300">
             <PhotoIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
-            <FaceSmileIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
+            {/* Add Emoji Picker */}
+            <FaceSmileIcon
+              className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+              onClick={handleOpen}
+            />
+            {/* https://www.geeksforgeeks.org/react-mui-popover-util/ */}
+            <Popover
+              open={Boolean(anchor)}
+              anchorEl={anchor}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              <EmojiPicker
+                onEmojiClick={onEmojiClick}
+                emojiStyle='twitter'
+              />
+            </Popover>
           </div>
           <Button
             disabled={!tweetText}

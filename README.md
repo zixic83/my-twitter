@@ -1,2 +1,6 @@
 # my-twitter
-Local twitter for myself
+- delete tweets
+- update tweets
+- comment
+- widgets
+- upload local photos/files
