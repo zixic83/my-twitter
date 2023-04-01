@@ -5,13 +5,21 @@ import Widgets from './Widgets';
 
 function App() {
   return (
-    <div className="app">
+    <div className="app flex">
       {/*Sidebar*/}
-      <Sidebar />
+      <div className="basis-1/5 h-screen">
+        <Sidebar />
+      </div>
+
       {/*Feed*/}
-      <Feed/>
+      <div className="basis-3/5 h-screen">
+        <Feed />
+      </div>
+
       {/*Widgets*/}
-      <Widgets/>
+      <div className="basis-1/5 h-screen">
+        <Widgets />
+      </div>
     </div>
   );
 }

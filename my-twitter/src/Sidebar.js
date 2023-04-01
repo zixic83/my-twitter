@@ -8,16 +8,16 @@ import { Button } from '@mui/material';
 
 function Sidebar() {
   return (
-    <div className="sidebar">
+    <div className="sidebar basis-1/5 h-screen">
       <TwitterIcon className="twitterIcon" />
       {/*sidebar option */}
       <SidebarOption text="Home" Icon={HomeIcon} />
       <SidebarOption text="Profile" Icon={UserIcon} />
 
       {/*Button Tweet */}
-      <Button variant="outlined" className="sideBarButton" fullWidth>
+      {/* <Button variant="outlined" className="sideBarButton" fullWidth>
         Tweet
-      </Button>
+      </Button> */}
     </div>
   );
 }

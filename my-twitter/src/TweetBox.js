@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./TweetBox.css";
-import { Button,Popover } from "@mui/material";
-import { PhotoIcon, FaceSmileIcon } from "@heroicons/react/24/outline";
+import { Button, Popover } from "@mui/material";
+import {
+  PhotoIcon,
+  FaceSmileIcon,
+  PlayCircleIcon,
+} from "@heroicons/react/24/outline";
 import EmojiPicker from "emoji-picker-react";
-
 
 function TweetBox({ setFetchedData }) {
   const [tweetText, setTweetText] = useState("");
   const [tweetMedia, setTweetMedia] = useState("");
-  const [anchor, setAnchor] = useState(null);
+  const [anchorEmoji, setAnchorEmoji] = useState(null);
+  const [tweetVideo, setTweetVideo] = useState("");
+  const [toShowVIcon, setToShowVIcon] = useState(false);
+  const [toShowPIcon, setToShowPIcon] = useState(false)
 
   function handleSubmit(e) {
     e.preventDefault();
     // content to be posted
-    const tweetContent = { tweetText, tweetMedia };
+    const tweetContent = { tweetText, tweetMedia, tweetVideo };
 
     axios.post("http://localhost:5000/tweets", { tweetContent }).then((res) => {
       setFetchedData(res.data);
@@ -23,22 +29,25 @@ function TweetBox({ setFetchedData }) {
     // clear form
     setTweetMedia("");
     setTweetText("");
+    setTweetVideo("");
+    setToShowPIcon(false);
+    setToShowVIcon(false);
   }
 
-const handleOpen = (e) => {
-  setAnchor(e.currentTarget);
-};
-
-const handleClose = () => {
-  setAnchor(null);
+  const handleOpenPicker = (e) => {
+    setAnchorEmoji(e.currentTarget);
   };
 
-  function onEmojiClick(emojiData,e) {
+  const handleClosePicker = () => {
+    setAnchorEmoji(null);
+  };
+
+  function onEmojiClick(emojiData, e) {
     setTweetText(tweetText + emojiData.emoji);
   }
 
   return (
-    <div className="tweetBox flex space-x-2 p-5 max-w-xl">
+    <div className="tweetBox flex space-x-2 p-5 ">
       <img
         className="mt-4 h-14 w-14 object-cover rounded-full"
         alt=""
@@ -53,35 +62,52 @@ const handleClose = () => {
           onChange={(e) => setTweetText(e.target.value)}
         />
 
-        <input
-          className="border-none outline-none"
-          type="text"
-          placeholder="Enter image URL"
-          value={tweetMedia}
-          onChange={(e) => setTweetMedia(e.target.value)}
-        />
+        {toShowPIcon ? (
+          <input
+            className="border-none outline-none"
+            type="text"
+            placeholder="Enter image URL"
+            value={tweetMedia}
+            onChange={(e) => setTweetMedia(e.target.value)}
+          />
+        ) : null}
+
+        {toShowVIcon ? (
+          <input
+            className="border-none outline-none"
+            type="text"
+            placeholder="Enter video URL"
+            value={tweetVideo}
+            onChange={(e) => setTweetVideo(e.target.value)}
+          />
+        ) : null}
+
         <div className="flex items-center ">
           <div className="flex flex-1 items-center space-x-2 text-blue-300">
-            <PhotoIcon className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150" />
+            <PhotoIcon
+              className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+              onClick={() => setToShowPIcon(!toShowPIcon)}
+            />
+            <PlayCircleIcon
+              className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+              onClick={() => setToShowVIcon(!toShowVIcon)}
+            />
             {/* Add Emoji Picker */}
             <FaceSmileIcon
               className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-              onClick={handleOpen}
+              onClick={handleOpenPicker}
             />
             {/* https://www.geeksforgeeks.org/react-mui-popover-util/ */}
             <Popover
-              open={Boolean(anchor)}
-              anchorEl={anchor}
-              onClose={handleClose}
+              open={Boolean(anchorEmoji)}
+              anchorEl={anchorEmoji}
+              onClose={handleClosePicker}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "left",
               }}
             >
-              <EmojiPicker
-                onEmojiClick={onEmojiClick}
-                emojiStyle='twitter'
-              />
+              <EmojiPicker onEmojiClick={onEmojiClick} emojiStyle="twitter" />
             </Popover>
           </div>
           <Button

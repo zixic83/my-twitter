@@ -7,8 +7,13 @@
     overflow-y: scroll;
     /*Hide scrollbar for firefox*/
     scrollbar-width: none;
+    
 }
 
+div::-webkit-scrollbar{
+    display: none;
+  }
+  
 .feed-header {
     position: sticky;
     top:0;
