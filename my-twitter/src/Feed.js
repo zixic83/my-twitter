@@ -41,11 +41,13 @@ function Feed() {
   }
 
   async function updatePost(id, text) {
-    const updatedTweet = await axios.patch("http://localhost:5000/tweets", {
+    let updatedTweet = await axios.patch("http://localhost:5000/tweets", {
       data: { id: id, text: text },
     });
+
     // update fetched data?
-    
+    let targetTweet = fetchedData.find(post => post._id === id);
+    targetTweet.tweetText = updatedTweet.tweetText
   }
 
   return (
@@ -72,6 +74,7 @@ function Feed() {
                   timestamp={post.timestamp}
                   id={post._id}
                   deletePost={deletePost}
+                  updatePost={updatePost}
                   avatar="https://images.unsplash.com/photo-1563306206-900cc99112fc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1965&q=80"
                 />
               );

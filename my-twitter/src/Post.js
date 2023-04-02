@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import TimeAgo from "react-timeago";
 import ReactPlayer from "react-player";
+import UpdateBox from "./UpdateBox";
 import "./Post.css";
 import {
   ChatBubbleBottomCenterIcon,
@@ -9,7 +10,8 @@ import {
 } from "@heroicons/react/24/outline";
 
 
-function Post({ displayName, text, image, video, timestamp, avatar, id, deletePost }) {
+function Post({ displayName, text, image, video, timestamp, avatar, id, deletePost, updatePost }) {
+  const [showBox, setShowBox] = useState(false);
 
   return (
     <div className="flex flex-col space-x-3 border-y p-5 border-gray-100 ">
@@ -36,7 +38,8 @@ function Post({ displayName, text, image, video, timestamp, avatar, id, deletePo
           <ChatBubbleBottomCenterIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
         </div>
         <div>
-          <PencilSquareIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
+          <PencilSquareIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" onClick={() => setShowBox(true)} />
+          {showBox ? <UpdateBox id={id} updatePost={updatePost} setShowBox={setShowBox} showBox={showBox} text={text} />:null}
         </div>
         <div>
           <TrashIcon
