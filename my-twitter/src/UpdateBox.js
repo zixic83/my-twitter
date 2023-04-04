@@ -21,7 +21,6 @@ export default function UpdateBox({ updatePost,id,text,setShowBox,showBox }) {
         <DialogTitle>Update Tweet</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             type="text"
