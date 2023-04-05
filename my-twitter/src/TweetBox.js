@@ -9,13 +9,13 @@ import {
 } from "@heroicons/react/24/outline";
 import EmojiPicker from "emoji-picker-react";
 
-function TweetBox({ setFetchedData }) {
+function TweetBox({  getAllTweets,setPage,setHasMore }) {
   const [tweetText, setTweetText] = useState("");
   const [tweetMedia, setTweetMedia] = useState("");
   const [anchorEmoji, setAnchorEmoji] = useState(null);
   const [tweetVideo, setTweetVideo] = useState("");
   const [toShowVIcon, setToShowVIcon] = useState(false);
-  const [toShowPIcon, setToShowPIcon] = useState(false)
+  const [toShowPIcon, setToShowPIcon] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -23,7 +23,12 @@ function TweetBox({ setFetchedData }) {
     const tweetContent = { tweetText, tweetMedia, tweetVideo };
 
     axios.post("http://localhost:5000/tweets", { tweetContent }).then((res) => {
-      setFetchedData(res.data);
+      // refresh page 0
+      getAllTweets();
+      // reset page to 1 (to be shown after scrolling down)
+      setPage(1);
+
+      setHasMore(true);
     });
 
     // clear form
