@@ -1,19 +1,31 @@
-import React, { useState,useRef } from "react";
+import React, { useState } from "react";
 import Moment from "react-moment";
 import { TextareaAutosize } from "@mui/base";
 import ReactPlayer from "react-player";
 import UpdateBox from "./UpdateBox";
 import "./Post.css";
 import {
-  ChatBubbleBottomCenterIcon,
+  HeartIcon as Heart2,
   TrashIcon,
-  PencilSquareIcon
+  PencilSquareIcon,
 } from "@heroicons/react/24/outline";
+import { HeartIcon as Heart1 } from "@heroicons/react/24/solid";
 
-
-function Post({ displayName, text, image, video, timestamp, avatar, id, deletePost, updatePost }) {
+function Post({
+  displayName,
+  text,
+  image,
+  video,
+  timestamp,
+  avatar,
+  id,
+  deletePost,
+  updatePost,
+  updateLike,
+  liked
+}) {
   const [showBox, setShowBox] = useState(false);
-
+  const [like, setLike] = useState(liked);
 
   return (
     <div className="flex flex-col space-x-3 border-y p-5 border-gray-100">
@@ -47,8 +59,17 @@ function Post({ displayName, text, image, video, timestamp, avatar, id, deletePo
       </div>
 
       <div className="mt-5 flex justify-around">
-        <div>
-          <ChatBubbleBottomCenterIcon className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
+        <div
+          onClick={() => {
+            setLike(!like);
+            updateLike(id);
+          }}
+        >
+          {like ? (
+            <Heart1 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-red-500" />
+          ) : (
+            <Heart2 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
+          )}
         </div>
         <div>
           <PencilSquareIcon

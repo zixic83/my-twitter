@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
+import { TextareaAutosize } from "@mui/base";
 import DialogTitle from "@mui/material/DialogTitle";
 
 export default function UpdateBox({ updatePost,id,text,setShowBox,showBox }) {
@@ -31,7 +31,7 @@ export default function UpdateBox({ updatePost,id,text,setShowBox,showBox }) {
             value={updateText}
             onChange={(e) => setUpdateText(e.target.value)}
             sx={{
-              width: 300,
+              width: 500,
             }}
           />
         </DialogContent>

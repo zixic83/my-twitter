@@ -66,6 +66,8 @@ console.log('activated')
       data: { id: id, text: text },
     });
 
+  
+
     // update fetched data
     let targetTweet = fetchedData.find((post) => post._id === id);
     targetTweet.tweetText = updatedTweet.tweetText;
@@ -76,6 +78,11 @@ console.log('activated')
 
     setHasMore(true);
     
+  }
+  async function updateLike(id, text) {
+    let updatedTweet = await axios.patch("http://localhost:5000/like", {
+      data: { id: id },
+    });
   }
 
   return (
@@ -110,8 +117,10 @@ console.log('activated')
                   video={post.tweetVideo}
                   timestamp={post.timestamp}
                   id={post._id}
+                  liked={post.Liked}
                   deletePost={deletePost}
                   updatePost={updatePost}
+                  updateLike={updateLike}
                   avatar="https://images.unsplash.com/photo-1563306206-900cc99112fc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1965&q=80"
                 />
               );
