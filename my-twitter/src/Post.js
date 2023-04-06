@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import TimeAgo from "react-timeago";
+import React, { useState,useRef } from "react";
 import Moment from "react-moment";
+import { TextareaAutosize } from "@mui/base";
 import ReactPlayer from "react-player";
 import UpdateBox from "./UpdateBox";
 import "./Post.css";
@@ -14,8 +14,9 @@ import {
 function Post({ displayName, text, image, video, timestamp, avatar, id, deletePost, updatePost }) {
   const [showBox, setShowBox] = useState(false);
 
+
   return (
-    <div className="flex flex-col space-x-3 border-y p-5 border-gray-100 ">
+    <div className="flex flex-col space-x-3 border-y p-5 border-gray-100">
       <div className="flex space-x-3 h-auto ">
         <img
           className="h-10 w-10 object-cover shrink-0 rounded-full"
@@ -23,19 +24,24 @@ function Post({ displayName, text, image, video, timestamp, avatar, id, deletePo
           src={avatar}
         />
 
-        <div>
+        <div className="w-full flex flex-col">
           <div className="flex items-center space-x-1">
             <h3 className="mr-1 font-bold">{displayName}</h3>
             <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
               {timestamp}
             </Moment>
           </div>
-          <p className="pt-1">{text}</p>
+          <TextareaAutosize
+            value={text}
+            className="resize-none outline-none "
+            disabled
+          />
+
           {image ? (
-            <img className="imgFig p-1 pt-3" src={image} alt="" />
+            <img className="imgFig p-1 pt-3 w-fit" src={image} alt="" />
           ) : null}
           {video ? (
-            <ReactPlayer className="pt-3" url={video} controls={true} />
+            <ReactPlayer className="pt-3 w-fit" url={video} controls={true} />
           ) : null}
         </div>
       </div>

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+
 import axios from "axios";
 import "./TweetBox.css";
 import { Button, Popover } from "@mui/material";
@@ -16,6 +17,7 @@ function TweetBox({  getAllTweets,setPage,setHasMore }) {
   const [tweetVideo, setTweetVideo] = useState("");
   const [toShowVIcon, setToShowVIcon] = useState(false);
   const [toShowPIcon, setToShowPIcon] = useState(false);
+
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -59,8 +61,8 @@ function TweetBox({  getAllTweets,setPage,setHasMore }) {
         src="https://images.unsplash.com/photo-1563306206-900cc99112fc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1965&q=80"
       />
       <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
-        <input
-          className="h-24 w-full outline-none placeholder:text-xl"
+        <textarea
+          className="h-24 w-full outline-none placeholder:text-xl resize-none "
           type="text"
           placeholder="What's happening?"
           value={tweetText}

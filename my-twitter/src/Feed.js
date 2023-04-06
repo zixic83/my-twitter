@@ -58,7 +58,6 @@ console.log('activated')
     // reset page to 1 (to be shown after scrolling down)
     setPage(1);
 
-    // bug: when I post something, the scroll down function does not work
     setHasMore(true)
   }
 
@@ -93,7 +92,7 @@ console.log('activated')
       />
       {/* go through each tweet in the allTweets json */}
       <InfiniteScroll
-        
+
         loadMore={fetchData}
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
