@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-
+import React, { useState, useContext } from "react";
+import { UserContext } from "./UserContext";
 import axios from "axios";
 import "./TweetBox.css";
 import { Button, Popover } from "@mui/material";
@@ -18,6 +18,7 @@ function TweetBox({  getAllTweets,setPage,setHasMore }) {
   const [toShowVIcon, setToShowVIcon] = useState(false);
   const [toShowPIcon, setToShowPIcon] = useState(false);
 
+  const { user, setUser } = useContext(UserContext);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -58,7 +59,7 @@ function TweetBox({  getAllTweets,setPage,setHasMore }) {
       <img
         className="mt-4 h-14 w-14 object-cover rounded-full"
         alt=""
-        src="https://images.unsplash.com/photo-1563306206-900cc99112fc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1965&q=80"
+        src={user.avatar}
       />
       <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
         <textarea

@@ -27,6 +27,7 @@ function Post({
   const [showBox, setShowBox] = useState(false);
   const [like, setLike] = useState(liked);
 
+  
   return (
     <div className="flex flex-col space-x-3 border-y p-5 border-gray-100">
       <div className="flex space-x-3 h-auto ">
