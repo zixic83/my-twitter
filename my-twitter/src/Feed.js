@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroller";
 import "./Feed.css";
@@ -12,7 +12,6 @@ function Feed() {
   const [page, setPage] = useState(1);
 
   const { user, setUser } = useContext(UserContext);
-
 
   useEffect(() => {
     getAllTweets();
@@ -42,7 +41,6 @@ function Feed() {
   };
 
   async function fetchData() {
-console.log('activated')
     const nextPageTweets = await axios.get(
       `http://localhost:5000/allTweets?p=${page}`
     );
@@ -52,7 +50,6 @@ console.log('activated')
       setHasMore(false);
     }
     setPage(page + 1);
-    
   }
 
   async function deletePost(id) {
@@ -64,15 +61,13 @@ console.log('activated')
     // reset page to 1 (to be shown after scrolling down)
     setPage(1);
 
-    setHasMore(true)
+    setHasMore(true);
   }
 
   async function updatePost(id, text) {
     let updatedTweet = await axios.patch("http://localhost:5000/tweets", {
       data: { id: id, text: text },
     });
-
-  
 
     // update fetched data
     let targetTweet = fetchedData.find((post) => post._id === id);
@@ -83,7 +78,6 @@ console.log('activated')
     setPage(1);
 
     setHasMore(true);
-    
   }
   async function updateLike(id, text) {
     let updatedTweet = await axios.patch("http://localhost:5000/like", {
@@ -92,7 +86,7 @@ console.log('activated')
   }
 
   return (
-    <div id='box' className="feed basis-3/5 h-screen">
+    <div id="box" className="feed basis-3/5 h-screen">
       {/*Header */}
       <div className="feed-header">
         <h2>Home</h2>
@@ -105,10 +99,9 @@ console.log('activated')
       />
       {/* go through each tweet in the allTweets json */}
       <InfiniteScroll
-
         loadMore={fetchData}
         hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
+        loader={<h4 key={0}>Loading...</h4>}
         initialLoad={false}
         useWindow={false}
       >
