@@ -9,6 +9,7 @@ import { HelmetProvider,Helmet } from "react-helmet-async";
 
 function App() {
   const [user, setUser] = useState("");
+  let title = user.name + ' / myTwitter'
 
   useEffect(() => {
     getData();
@@ -30,7 +31,7 @@ function App() {
   return (
     <HelmetProvider context={helmetContext}>
       <Helmet>
-        <title>{user.name} / myTwitter</title>
+        <title>{title}</title>
         <meta
           name="description"
           content="Beginner friendly page for learning React Helmet."
