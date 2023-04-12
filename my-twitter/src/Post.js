@@ -22,12 +22,30 @@ function Post({
   deletePost,
   updatePost,
   updateLike,
-  liked
+  liked,
 }) {
   const [showBox, setShowBox] = useState(false);
   const [like, setLike] = useState(liked);
 
-  
+  let mediaFile;
+  function getType(filename) {
+    // get file extension
+    const extension = filename.split(".").pop();
+    return extension;
+  }
+
+  if (video) {
+    if (getType(video) === ("mp3" || "aac")) {
+      mediaFile = <audio controls src={video}></audio>;
+    } else {
+      mediaFile = (
+        <ReactPlayer className="pt-3 w-fit" url={video} controls={true} />
+      );
+    }
+  } else {
+    mediaFile = null;
+  }
+
   return (
     <div className="flex flex-col space-x-3 border-y p-5 border-gray-100">
       <div className="flex space-x-3 h-auto ">
@@ -53,9 +71,10 @@ function Post({
           {image ? (
             <img className="imgFig p-1 pt-3 w-fit" src={image} alt="" />
           ) : null}
-          {video ? (
+          {/* {video ? (
             <ReactPlayer className="pt-3 w-fit" url={video} controls={true} />
-          ) : null}
+          ) : null} */}
+          {mediaFile}
         </div>
       </div>
 
