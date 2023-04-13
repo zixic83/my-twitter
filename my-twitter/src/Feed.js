@@ -89,7 +89,7 @@ function Feed() {
     <div id="box" className="feed basis-3/5 h-screen">
       {/*Header */}
       <div className="feed-header">
-        <h2>Home</h2>
+        <span className="font-semibold text-xl">Home</span>
       </div>
       {/*Tweet Box */}
       <TweetBox
