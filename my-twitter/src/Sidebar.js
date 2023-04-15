@@ -2,7 +2,6 @@ import React,{useState} from "react";
 import "./Sidebar.css";
 import { HomeIcon } from "@heroicons/react/24/outline";
 import SidebarOption from "./SidebarOption";
-import SettingForm from "./SettingForm";
 import Logo from "./logo.png";
 import Profile from "./Profile";
 

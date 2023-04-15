@@ -39,15 +39,12 @@ function Post({
 
   if (video) {
     if (getType(video) === ("mp3" || "aac")) {
-      mediaFile = <audio className="pt-3" controls src={video}></audio>;
+      mediaFile = <audio className="pt-3 p-1" controls src={video}></audio>;
     } else {
       mediaFile = (
-        <ReactPlayer
-          width="100%"
-          height="100%"
-          url={video}
-          controls={true}
-        />
+        <div className="player-wrapper">
+          <ReactPlayer url={video} controls={true} height="60vh" width="auto" />
+        </div>
       );
     }
   } else {
@@ -94,7 +91,7 @@ function Post({
           ) : null}
           {mediaFile}
           {/* Gallery */}
-          {photoArray ? (
+          {photoArray.length!==0 ? (
             <ImageGallery
               items={photos}
               showThumbnails={false}

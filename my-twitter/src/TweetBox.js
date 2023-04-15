@@ -1,4 +1,4 @@
-import React, { useState, useContext,forwardRef,useRef } from "react";
+import React, { useState, useContext} from "react";
 import { UserContext } from "./UserContext";
 import axios from "axios";
 import "./TweetBox.css";
@@ -18,7 +18,7 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
   const [anchorEmoji, setAnchorEmoji] = useState(null);
   const [tweetVideo, setTweetVideo] = useState("");
   const [tweetPhotos, setTweetPhotos] = useState('');
-  const [photoArray, setPhotoArray] = useState(null);
+  const [photoArray, setPhotoArray] = useState([]);
   const [toShowVIcon, setToShowVIcon] = useState(false);
   const [toShowPIcon, setToShowPIcon] = useState(false);
   const [toShowMIcon, setToShowMIcon] = useState(false);
@@ -44,7 +44,8 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
     setTweetMedia("");
     setTweetText("");
     setTweetVideo("");
-    setTweetPhotos([]);
+    setTweetPhotos('');
+    setPhotoArray([]);
     setToShowPIcon(false);
     setToShowVIcon(false);
     setToShowMIcon(false);
