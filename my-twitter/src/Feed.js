@@ -114,6 +114,7 @@ function Feed() {
                   text={post.tweetText}
                   image={post.tweetMedia}
                   video={post.tweetVideo}
+                  photoArray= {post.photoArray}
                   timestamp={post.timestamp}
                   id={post._id}
                   liked={post.Liked}

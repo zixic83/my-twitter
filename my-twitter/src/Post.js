@@ -10,12 +10,15 @@ import {
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { HeartIcon as Heart1 } from "@heroicons/react/24/solid";
+import ImageGallery from "react-image-gallery";
+
 
 function Post({
   displayName,
   text,
   image,
   video,
+  photoArray,
   timestamp,
   avatar,
   id,
@@ -36,15 +39,34 @@ function Post({
 
   if (video) {
     if (getType(video) === ("mp3" || "aac")) {
-      mediaFile = <audio controls src={video}></audio>;
+      mediaFile = <audio className="pt-3" controls src={video}></audio>;
     } else {
       mediaFile = (
-        <ReactPlayer className="pt-3 w-fit" url={video} controls={true} />
+        <ReactPlayer
+          width="100%"
+          height="100%"
+          url={video}
+          controls={true}
+        />
       );
     }
   } else {
     mediaFile = null;
   }
+
+  function photosToObjects() {
+    let photos = [];
+    const len = photoArray.length;
+    for (let i = 0; i < len; i++) {
+      photos.push({
+        original: photoArray[i],
+      });
+    }
+
+    return photos
+  }
+
+  const photos = photosToObjects();
 
   return (
     <div className="flex flex-col space-x-3 border-y p-5 border-gray-100">
@@ -67,14 +89,20 @@ function Post({
             className="resize-none outline-none "
             disabled
           />
-
           {image ? (
             <img className="imgFig p-1 pt-3 w-fit" src={image} alt="" />
           ) : null}
-          {/* {video ? (
-            <ReactPlayer className="pt-3 w-fit" url={video} controls={true} />
-          ) : null} */}
           {mediaFile}
+          {/* Gallery */}
+          {photoArray ? (
+            <ImageGallery
+              items={photos}
+              showThumbnails={false}
+              showPlayButton={false}
+              showFullscreenButton={false}
+              showBullets={true}
+            />
+          ) : null}
         </div>
       </div>
 

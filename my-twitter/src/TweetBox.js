@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext,forwardRef,useRef } from "react";
 import { UserContext } from "./UserContext";
 import axios from "axios";
 import "./TweetBox.css";
@@ -7,23 +7,29 @@ import {
   PhotoIcon,
   FaceSmileIcon,
   PlayCircleIcon,
+  Squares2X2Icon,
 } from "@heroicons/react/24/outline";
 import EmojiPicker from "emoji-picker-react";
 
-function TweetBox({  getAllTweets,setPage,setHasMore }) {
+
+function TweetBox({ getAllTweets, setPage, setHasMore }) {
   const [tweetText, setTweetText] = useState("");
   const [tweetMedia, setTweetMedia] = useState("");
   const [anchorEmoji, setAnchorEmoji] = useState(null);
   const [tweetVideo, setTweetVideo] = useState("");
+  const [tweetPhotos, setTweetPhotos] = useState('');
+  const [photoArray, setPhotoArray] = useState(null);
   const [toShowVIcon, setToShowVIcon] = useState(false);
   const [toShowPIcon, setToShowPIcon] = useState(false);
+  const [toShowMIcon, setToShowMIcon] = useState(false);
 
   const { user, setUser } = useContext(UserContext);
 
   function handleSubmit(e) {
     e.preventDefault();
+    
     // content to be posted
-    const tweetContent = { tweetText, tweetMedia, tweetVideo };
+    const tweetContent = { tweetText, tweetMedia, tweetVideo,photoArray };
 
     axios.post("http://localhost:5000/tweets", { tweetContent }).then((res) => {
       // refresh page 0
@@ -38,8 +44,10 @@ function TweetBox({  getAllTweets,setPage,setHasMore }) {
     setTweetMedia("");
     setTweetText("");
     setTweetVideo("");
+    setTweetPhotos([]);
     setToShowPIcon(false);
     setToShowVIcon(false);
+    setToShowMIcon(false);
   }
 
   const handleOpenPicker = (e) => {
@@ -53,6 +61,7 @@ function TweetBox({  getAllTweets,setPage,setHasMore }) {
   function onEmojiClick(emojiData, e) {
     setTweetText(tweetText + emojiData.emoji);
   }
+
 
   return (
     <div className="tweetBox flex space-x-2 p-5 ">
@@ -90,6 +99,16 @@ function TweetBox({  getAllTweets,setPage,setHasMore }) {
           />
         ) : null}
 
+        {toShowMIcon ? (
+          <textarea
+            className="border-none outline-none resize-none"
+            type="text"
+            placeholder="Enter multiple image URLs: Seperate by a new line"
+            value={tweetPhotos}
+            onChange={(e) => { setTweetPhotos(e.target.value); setPhotoArray(e.target.value.split('\n'))}}
+          />
+        ) : null}
+
         <div className="flex items-center ">
           <div className="flex flex-1 items-center space-x-2 text-blue-300">
             <PhotoIcon
@@ -117,6 +136,12 @@ function TweetBox({  getAllTweets,setPage,setHasMore }) {
             >
               <EmojiPicker onEmojiClick={onEmojiClick} emojiStyle="twitter" />
             </Popover>
+            <Squares2X2Icon
+              className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+              onClick={() => {
+                setToShowMIcon(!toShowMIcon);
+              }}
+            />
           </div>
           <Button
             disabled={!tweetText}
