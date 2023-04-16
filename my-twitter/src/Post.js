@@ -64,14 +64,14 @@ function Post({
   }
 
   const photos = photosToObjects();
-
+console.log(text)
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0,scale:0.9 }}
+        initial={{ opacity: 0,scale:0.95 }}
         animate={{ opacity: 1,scale:1 }}
         exit={{ opacity: 0,scale:0.6 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.3 }}
         className="flex flex-col space-x-3 border-y p-5 border-gray-100 "
       >
         <div className="flex space-x-3 h-auto ">
@@ -81,9 +81,9 @@ function Post({
             src={avatar}
           />
 
-          <div className="w-full flex flex-col ">
+          <div layout className="w-full flex flex-col ">
             <div className="flex items-center space-x-1">
-              <h3 className="mr-1 font-bold">{displayName}</h3>
+              <h3 layout className="mr-1 font-bold">{displayName}</h3>
               <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
                 {timestamp}
               </Moment>
@@ -99,7 +99,7 @@ function Post({
             {mediaFile}
             {/* Gallery */}
             {photoArray.length !== 0 && (
-              <div>
+              <div layout>
                 <ImageGallery
                   items={photos}
                   showThumbnails={false}
