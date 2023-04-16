@@ -11,7 +11,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { HeartIcon as Heart1 } from "@heroicons/react/24/solid";
 import ImageGallery from "react-image-gallery";
-
+import { motion, AnimatePresence } from "framer-motion";
 
 function Post({
   displayName,
@@ -60,85 +60,95 @@ function Post({
       });
     }
 
-    return photos
+    return photos;
   }
 
   const photos = photosToObjects();
 
   return (
-    <div className="flex flex-col space-x-3 border-y p-5 border-gray-100">
-      <div className="flex space-x-3 h-auto ">
-        <img
-          className="h-10 w-10 object-cover shrink-0 rounded-full"
-          alt=""
-          src={avatar}
-        />
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0,scale:0.9 }}
+        animate={{ opacity: 1,scale:1 }}
+        exit={{ opacity: 0,scale:0.6 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col space-x-3 border-y p-5 border-gray-100 "
+      >
+        <div className="flex space-x-3 h-auto ">
+          <img
+            className="h-10 w-10 object-cover shrink-0 rounded-full"
+            alt=""
+            src={avatar}
+          />
 
-        <div className="w-full flex flex-col">
-          <div className="flex items-center space-x-1">
-            <h3 className="mr-1 font-bold">{displayName}</h3>
-            <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
-              {timestamp}
-            </Moment>
+          <div className="w-full flex flex-col ">
+            <div className="flex items-center space-x-1">
+              <h3 className="mr-1 font-bold">{displayName}</h3>
+              <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
+                {timestamp}
+              </Moment>
+            </div>
+            <TextareaAutosize
+              value={text}
+              className="resize-none outline-none "
+              disabled
+            />
+            {image && (
+              <img className="imgFig p-1 pt-3 w-fit" src={image} alt="" />
+            )}
+            {mediaFile}
+            {/* Gallery */}
+            {photoArray.length !== 0 && (
+              <div>
+                <ImageGallery
+                  items={photos}
+                  showThumbnails={false}
+                  showPlayButton={false}
+                  showFullscreenButton={false}
+                  showBullets={true}
+                />
+              </div>
+            )}
           </div>
-          <TextareaAutosize
-            value={text}
-            className="resize-none outline-none "
-            disabled
-          />
-          {image ? (
-            <img className="imgFig p-1 pt-3 w-fit" src={image} alt="" />
-          ) : null}
-          {mediaFile}
-          {/* Gallery */}
-          {photoArray.length!==0 ? (
-            <ImageGallery
-              items={photos}
-              showThumbnails={false}
-              showPlayButton={false}
-              showFullscreenButton={false}
-              showBullets={true}
-            />
-          ) : null}
         </div>
-      </div>
 
-      <div className="mt-5 flex justify-around">
-        <div
-          onClick={() => {
-            setLike(!like);
-            updateLike(id);
-          }}
-        >
-          {like ? (
-            <Heart1 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-red-500" />
-          ) : (
-            <Heart2 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
-          )}
-        </div>
-        <div>
-          <PencilSquareIcon
-            className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400"
-            onClick={() => setShowBox(true)}
-          />
-          {showBox ? (
-            <UpdateBox
-              id={id}
-              updatePost={updatePost}
-              setShowBox={setShowBox}
-              showBox={showBox}
-              text={text}
+        <div className="mt-5 flex justify-around">
+          <div
+            onClick={() => {
+              setLike(!like);
+              updateLike(id);
+            }}
+          >
+            {like ? (
+              <Heart1 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-red-500" />
+            ) : (
+              <Heart2 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
+            )}
+          </div>
+          <div>
+            <PencilSquareIcon
+              className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400"
+              onClick={() => setShowBox(true)}
             />
-          ) : null}
+            {showBox && (
+              <UpdateBox
+                id={id}
+                updatePost={updatePost}
+                setShowBox={setShowBox}
+                showBox={showBox}
+                text={text}
+              />
+            )}
+          </div>
+          <div>
+            <TrashIcon
+              className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400"
+              onClick={() => deletePost(id)}
+            />
+          </div>
         </div>
-        <div>
-          <TrashIcon
-            className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400"
-            onClick={() => deletePost(id)}
-          />
-        </div>
-      </div>
-    </div>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 

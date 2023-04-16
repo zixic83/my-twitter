@@ -25,14 +25,12 @@ function Feed() {
         return (
           <Post
             key={post.timestamp}
-            // displayName="大器晩成"
             displayName={user.name}
             text={post.tweetText}
             image={post.tweetMedia}
             video={post.tweetVideo}
             timestamp={post.timestamp}
             id={post._id}
-            // avatar="https://images.unsplash.com/photo-1563306206-900cc99112fc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1965&q=80"
             avatar={user.avatar}
           />
         );
@@ -106,7 +104,7 @@ function Feed() {
         useWindow={false}
       >
         {Object.keys(fetchedData).length !== 0
-          ? fetchedData.map((post) => {
+          && fetchedData.map((post) => {
               return (
                 <Post
                   key={post.timestamp}
@@ -125,7 +123,7 @@ function Feed() {
                 />
               );
             })
-          : null}
+          }
       </InfiniteScroll>
     </div>
   );

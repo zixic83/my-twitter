@@ -1,4 +1,4 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import { UserContext } from "./UserContext";
 import axios from "axios";
 import "./TweetBox.css";
@@ -10,14 +10,14 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/24/outline";
 import EmojiPicker from "emoji-picker-react";
-
+import { motion, AnimatePresence } from "framer-motion";
 
 function TweetBox({ getAllTweets, setPage, setHasMore }) {
   const [tweetText, setTweetText] = useState("");
   const [tweetMedia, setTweetMedia] = useState("");
   const [anchorEmoji, setAnchorEmoji] = useState(null);
   const [tweetVideo, setTweetVideo] = useState("");
-  const [tweetPhotos, setTweetPhotos] = useState('');
+  const [tweetPhotos, setTweetPhotos] = useState("");
   const [photoArray, setPhotoArray] = useState([]);
   const [toShowVIcon, setToShowVIcon] = useState(false);
   const [toShowPIcon, setToShowPIcon] = useState(false);
@@ -27,9 +27,9 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    
+
     // content to be posted
-    const tweetContent = { tweetText, tweetMedia, tweetVideo,photoArray };
+    const tweetContent = { tweetText, tweetMedia, tweetVideo, photoArray };
 
     axios.post("http://localhost:5000/tweets", { tweetContent }).then((res) => {
       // refresh page 0
@@ -44,7 +44,7 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
     setTweetMedia("");
     setTweetText("");
     setTweetVideo("");
-    setTweetPhotos('');
+    setTweetPhotos("");
     setPhotoArray([]);
     setToShowPIcon(false);
     setToShowVIcon(false);
@@ -63,7 +63,6 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
     setTweetText(tweetText + emojiData.emoji);
   }
 
-
   return (
     <div className="tweetBox flex space-x-2 p-5 ">
       <img
@@ -71,8 +70,16 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
         alt=""
         src={user.avatar}
       />
-      <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
-        <textarea
+      <motion.form
+        transition={{
+          opacity: { ease: "linear" },
+          layout: { duration: 1 },
+        }}
+        onSubmit={handleSubmit}
+        className="flex flex-1 flex-col"
+      >
+        <motion.textarea
+          layout
           className="h-24 w-full outline-none placeholder:text-xl resize-none "
           type="text"
           placeholder="What's happening?"
@@ -80,38 +87,61 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
           onChange={(e) => setTweetText(e.target.value)}
         />
 
-        {toShowPIcon ? (
-          <input
-            className="border-none outline-none"
-            type="text"
-            placeholder="Enter image URL"
-            value={tweetMedia}
-            onChange={(e) => setTweetMedia(e.target.value)}
-          />
-        ) : null}
+        {toShowPIcon && (
+          <AnimatePresence>
+            <motion.input
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="border-none outline-none"
+              type="text"
+              placeholder="Enter image URL"
+              value={tweetMedia}
+              onChange={(e) => setTweetMedia(e.target.value)}
+            />
+          </AnimatePresence>
+        )}
 
-        {toShowVIcon ? (
-          <input
-            className="border-none outline-none"
-            type="text"
-            placeholder="Enter video URL"
-            value={tweetVideo}
-            onChange={(e) => setTweetVideo(e.target.value)}
-          />
-        ) : null}
-
-        {toShowMIcon ? (
-          <textarea
-            className="border-none outline-none resize-none"
-            type="text"
-            placeholder="Enter multiple image URLs: Seperate by a new line"
-            value={tweetPhotos}
-            onChange={(e) => { setTweetPhotos(e.target.value); setPhotoArray(e.target.value.split('\n'))}}
-          />
-        ) : null}
-
+        {toShowVIcon && (
+          <AnimatePresence>
+            <motion.input
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="border-none outline-none"
+              type="text"
+              placeholder="Enter video URL"
+              value={tweetVideo}
+              onChange={(e) => setTweetVideo(e.target.value)}
+            />
+          </AnimatePresence>
+        )}
+        {toShowMIcon && (
+          <AnimatePresence>
+            <motion.textarea
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="border-none outline-none resize-none"
+              type="text"
+              placeholder="Enter multiple image URLs: Seperate by a new line"
+              value={tweetPhotos}
+              onChange={(e) => {
+                setTweetPhotos(e.target.value);
+                setPhotoArray(e.target.value.split("\n"));
+              }}
+            />
+          </AnimatePresence>
+        )}
         <div className="flex items-center ">
-          <div className="flex flex-1 items-center space-x-2 text-blue-300">
+          <motion.div
+            layout
+            transition={{
+              opacity: { ease: "linear" },
+              layout: { duration: 0.3 },
+            }}
+            className="flex flex-1 items-center space-x-2 text-blue-300"
+          >
             <PhotoIcon
               className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
               onClick={() => setToShowPIcon(!toShowPIcon)}
@@ -143,7 +173,7 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
                 setToShowMIcon(!toShowMIcon);
               }}
             />
-          </div>
+          </motion.div>
           <Button
             disabled={!tweetText}
             className="tweetBox-button disabled:opacity-40"
@@ -152,7 +182,7 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
             Tweet
           </Button>
         </div>
-      </form>
+      </motion.form>
     </div>
   );
 }
