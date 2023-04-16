@@ -14,8 +14,12 @@ function Feed() {
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    getAllTweets();
-  }, []);
+    const func = async () => {
+    const allTweets = await axios.get(`http://localhost:5000/allTweets?p=0`);
+    setFetchedData(allTweets.data);
+    }
+func()
+  },[]);
 
   const getAllTweets = async () => {
     const allTweets = await axios.get(`http://localhost:5000/allTweets?p=0`);
