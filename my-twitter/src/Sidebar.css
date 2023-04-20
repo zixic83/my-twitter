@@ -6,6 +6,10 @@
     padding-right: 20px;
 }
 
+.sidebar a.active {
+    color: #0284c7;
+}
+
 .twitterIcon {
     color: var(--twitter-color) !important;
     font-size: 30px !important;
@@ -24,4 +28,5 @@
     height: 50px !important;
     margin-top: 20px !important;
 }
+
 

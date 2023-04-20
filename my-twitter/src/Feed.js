@@ -43,11 +43,11 @@ function Feed() {
   };
 
   async function fetchData() {
-    setIsFetching(true)
+    setIsFetching(true);
     const nextPageTweets = await axios.get(
       `http://localhost:5000/allTweets?p=${page}`
     );
-    setIsFetching(false)
+    setIsFetching(false);
     setFetchedData([...fetchedData, ...nextPageTweets.data]);
 
     if (nextPageTweets.data.length === 0 || nextPageTweets.data.length < 3) {
@@ -109,26 +109,26 @@ function Feed() {
         initialLoad={false}
         useWindow={false}
       >
-      {Object.keys(fetchedData).length !== 0 &&
-        fetchedData.map((post) => {
-          return (
-            <Post
-              key={post.timestamp}
-              displayName={user.name}
-              text={post.tweetText}
-              image={post.tweetMedia}
-              video={post.tweetVideo}
-              photoArray={post.photoArray}
-              timestamp={post.timestamp}
-              id={post._id}
-              liked={post.Liked}
-              deletePost={deletePost}
-              updatePost={updatePost}
-              updateLike={updateLike}
-              avatar={user.avatar}
-            />
-          );
-        })}
+        {Object.keys(fetchedData).length !== 0 &&
+          fetchedData.map((post) => {
+            return (
+                <Post
+                  key={post._id}
+                  displayName={user.name}
+                  text={post.tweetText}
+                  image={post.tweetMedia}
+                  video={post.tweetVideo}
+                  photoArray={post.photoArray}
+                  timestamp={post.timestamp}
+                  id={post._id}
+                  liked={post.Liked}
+                  deletePost={deletePost}
+                  updatePost={updatePost}
+                  updateLike={updateLike}
+                  avatar={user.avatar}
+                />
+            );
+          })}
       </InfiniteScroll>
     </div>
   );

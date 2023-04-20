@@ -80,7 +80,7 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
       >
         <motion.textarea
           layout
-          className="h-24 w-full outline-none placeholder:text-xl resize-none "
+          className="h-24 w-full outline-none placeholder:text-xl resize-none py-8"
           type="text"
           placeholder="What's happening?"
           value={tweetText}
