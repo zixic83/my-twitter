@@ -172,8 +172,7 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
                 horizontal: "left",
               }}
             >
-              {/* <EmojiPicker onEmojiClick={onEmojiClick} emojiStyle="twitter" /> */}
-              <Picker data={data} onEmojiSelect={onEmojiClick} set='apple' />
+              <Picker data={data} onEmojiSelect={onEmojiClick} set="twitter" />
             </Popover>
             <Squares2X2Icon
               className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
