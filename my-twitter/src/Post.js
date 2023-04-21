@@ -39,7 +39,9 @@ function Post({
 
   if (video) {
     if (getType(video) === ("mp3" || "aac")) {
-      mediaFile = <audio className="pt-3 p-1" controls src={video}></audio>;
+      mediaFile = (
+        <audio className="pt-3 p-1 w-full" controls src={video}></audio>
+      );
     } else {
       mediaFile = (
         <div className="player-wrapper">
