@@ -9,8 +9,11 @@ import {
   PlayCircleIcon,
   Squares2X2Icon,
 } from "@heroicons/react/24/outline";
-import EmojiPicker from "emoji-picker-react";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data/sets/14/twitter.json";
 import { motion, AnimatePresence } from "framer-motion";
+
+
 
 function TweetBox({ getAllTweets, setPage, setHasMore }) {
   const [tweetText, setTweetText] = useState("");
@@ -59,8 +62,12 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
     setAnchorEmoji(null);
   };
 
-  function onEmojiClick(emojiData, e) {
-    setTweetText(tweetText + emojiData.emoji);
+  function onEmojiClick(e) {
+    let sym = e.unified.split('-');
+    let codesArray = [];
+    sym.forEach((el) => codesArray.push('0x' + el));
+    let emoji = String.fromCodePoint(...codesArray);
+    setTweetText(tweetText + emoji);
   }
 
   return (
@@ -165,7 +172,8 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
                 horizontal: "left",
               }}
             >
-              <EmojiPicker onEmojiClick={onEmojiClick} emojiStyle="twitter" />
+              {/* <EmojiPicker onEmojiClick={onEmojiClick} emojiStyle="twitter" /> */}
+              <Picker data={data} onEmojiSelect={onEmojiClick} set='apple' />
             </Popover>
             <Squares2X2Icon
               className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"

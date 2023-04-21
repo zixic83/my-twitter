@@ -6,16 +6,13 @@
   margin: 0;
 }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: "Twemoji from xem.github.io";
+  src: url("https://xem.github.io/unicode13/Twemoji.ttf") format("truetype");
+  unicode-range: U+00A9-E007F;
+  /* @see https://github.com/mozilla/twemoji-colr/issues/56 */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:root {
+  font-family: "Twemoji from xem.github.io", Segoe UI Emoji, Segoe UI Symbol, Segoe, sans-serif;
 }
