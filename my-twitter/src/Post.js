@@ -92,7 +92,7 @@ function Post({
             </div>
             <TextareaAutosize
               value={text}
-              className="resize-none outline-none "
+              className="resize-none outline-none bg-inherit"
               disabled
             />
             {image && (
