@@ -1,5 +1,5 @@
 # myTwitter
-This is a Twitter clone I built for my own use. 
+This is a private Twitter clone I built for my own use. I use it as my personal electronic diary. 
 
 ## Getting Started
 ### Dependencies
@@ -18,5 +18,5 @@ https://user-images.githubusercontent.com/70243423/233763702-b922d0e5-5b37-4b4c-
 This project is licensed under the Apache License 2.0
 
 ## Acknowledgments
-[Wonderful twitter clone tutorial for the basic design](https://www.youtube.com/watch?v=rJjaqSTzOxI)
-[Icons for the site](https://icon-icons.com/pack/Origami/3604)
+- [Wonderful twitter clone tutorial for the basic design](https://www.youtube.com/watch?v=rJjaqSTzOxI)
+- [Icons for the site](https://icon-icons.com/pack/Origami/3604)
