@@ -97,7 +97,7 @@ function FavFeed() {
       {/* go through each tweet in the allTweets json */}
       <InfiniteScroll
         loadMore={fetchData}
-        hasMore={!isFetching && hasMore}
+        hasMore={!isFetching && hasMore && fetchedData.length >= 10}
         loader={<h4 key={0}>Loading...</h4>}
         initialLoad={false}
         useWindow={false}
