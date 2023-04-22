@@ -1,0 +1,13 @@
+.tweetBox-button {
+    background-color: var(--twitter-color) !important;
+    border: none !important;
+    color:white !important;
+    font-weight: 900 !important;
+    /* Inherit parent's style */
+    text-transform: inherit !important;
+    border-radius: 30px !important;
+    width: 80px;
+    height: 40px !important;
+
+}
+
