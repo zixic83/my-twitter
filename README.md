@@ -1,5 +1,5 @@
 # myTwitter
-This is a private Twitter clone I built for my own use. I use it as my personal electronic diary. 
+This is a private local Twitter clone I built for my own use. I use it as my personal electronic diary. 
 
 ## Getting Started
 ### Dependencies
@@ -10,6 +10,7 @@ This is a private Twitter clone I built for my own use. I use it as my personal 
 ### Setup
 - Back-end server: <a href='https://github.com/zixic83/my-twitter-back-end'>Github repository</a>
 - A user has to be set up manually from the back end when used for the first time
+- Note: This site essentially does not support local file upload, since it is a security risk from the browser's perspective to allow the front-end to have direct access to local file system paths (e.g. C:\Documents\sample.jpg), so I acutally set up another local file server to get around the issue when I personally use it (e.g.localhost：5000/files/sample.jpg). 
 
 ### Demo
 https://user-images.githubusercontent.com/70243423/233763702-b922d0e5-5b37-4b4c-bd90-ebd6140a7569.mp4
