@@ -12,7 +12,10 @@ import { HelmetProvider, Helmet } from "react-helmet-async";
 function Home() {
     const [user, setUser] = useState("");
     let title = user.name + " / myTwitter";
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [click, setClick] = useState(false);
+
+  
     useEffect(() => {
       getData();
     }, []);
@@ -29,7 +32,8 @@ function Home() {
       return updatedUser;
     }
 
-    const helmetContext = {};
+  const helmetContext = {};
+
   return (
     <HelmetProvider context={helmetContext}>
       <Helmet>
@@ -40,11 +44,21 @@ function Home() {
         />
       </Helmet>
       <div className="app flex">
-        <UserContext.Provider value={{ updateUser, setUser, user }}>
-          <div className="basis-1/5 h-screen">
+        <UserContext.Provider
+          value={{ updateUser, setUser, user, click, setClick }}
+        >
+          <div
+            className={
+              // how to disappear again if width > 678px ?
+              "basis-1/5 h-screen md:block hidden" +
+              (click
+                ? "visible fixed top-0 left-0 z-20 bg-white"
+                : "")
+            }
+          >
             <Sidebar />
           </div>
-          <div className="basis-3/5 h-screen">
+          <div className="basis-3/5 h-screen min-w-fit z-10">
             <Feed />
           </div>
         </UserContext.Provider>
