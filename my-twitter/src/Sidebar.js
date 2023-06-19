@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 import { HomeIcon, HeartIcon } from "@heroicons/react/24/outline";
 import SidebarOption from "./SidebarOption";

@@ -71,7 +71,7 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
   }
 
   return (
-    <div className="tweetBox flex space-x-2 p-5 ">
+    <div className="flex space-x-2 p-5 border-b-[1px] border-gray-200">
       <img
         className="mt-4 h-14 w-14 object-cover rounded-full"
         alt=""

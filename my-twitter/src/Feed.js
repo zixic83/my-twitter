@@ -1,17 +1,19 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroller";
 import "./Feed.css";
 import TweetBox from "./TweetBox";
 import Post from "./Post";
 import { UserContext } from "./UserContext";
+import { Bars3Icon } from "@heroicons/react/24/outline";
+import useMediaQuery from "./useMediaQuery";
 
 function Feed() {
   const [fetchedData, setFetchedData] = useState("");
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, click, setClick } = useContext(UserContext);
 
   useEffect(() => {
     const func = async () => {
@@ -89,11 +91,19 @@ function Feed() {
     });
   }
 
+  const isAboveMediumScreen = useMediaQuery("(min-width:1060px)");
+
   return (
     <div id="box" className="feed basis-3/5 h-screen">
       {/*Header */}
-      <div className="feed-header">
-        <span className="font-semibold text-xl">Home</span>
+      <div className="feed-header flex justify-between items-center">
+        <div className="font-semibold text-xl">Home</div>
+        {/*           <Bars3Icon
+            className="h-6 w-6 hover:text-blue-300 cursor-pointer"
+            onClick={() => {
+              setClick(!click);
+            }}
+          /> */}
       </div>
       {/*Tweet Box */}
       <TweetBox
@@ -104,7 +114,7 @@ function Feed() {
       {/* go through each tweet in the allTweets json */}
       <InfiniteScroll
         loadMore={fetchData}
-        hasMore={!isFetching && hasMore && fetchedData.length>=10}
+        hasMore={!isFetching && hasMore && fetchedData.length >= 10}
         loader={<h4>Loading...</h4>}
         initialLoad={false}
         useWindow={false}
@@ -112,21 +122,21 @@ function Feed() {
         {Object.keys(fetchedData).length !== 0 &&
           fetchedData.map((post) => {
             return (
-                <Post
-                  key={post._id}
-                  displayName={user.name}
-                  text={post.tweetText}
-                  image={post.tweetMedia}
-                  video={post.tweetVideo}
-                  photoArray={post.photoArray}
-                  timestamp={post.timestamp}
-                  id={post._id}
-                  liked={post.Liked}
-                  deletePost={deletePost}
-                  updatePost={updatePost}
-                  updateLike={updateLike}
-                  avatar={user.avatar}
-                />
+              <Post
+                key={post._id}
+                displayName={user.name}
+                text={post.tweetText}
+                image={post.tweetMedia}
+                video={post.tweetVideo}
+                photoArray={post.photoArray}
+                timestamp={post.timestamp}
+                id={post._id}
+                liked={post.Liked}
+                deletePost={deletePost}
+                updatePost={updatePost}
+                updateLike={updateLike}
+                avatar={user.avatar}
+              />
             );
           })}
       </InfiniteScroll>
