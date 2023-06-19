@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect} from "react";
 import Moment from "react-moment";
-import { TextareaAutosize } from "@mui/base";
 import ReactPlayer from "react-player";
 import UpdateBox from "./UpdateBox";
 import "./Post.css";
@@ -12,6 +11,9 @@ import {
 import { HeartIcon as Heart1 } from "@heroicons/react/24/solid";
 import ImageGallery from "react-image-gallery";
 import { motion, AnimatePresence } from "framer-motion";
+import linkifyHtml from "linkify-html";
+import parse from "html-react-parser";
+import axios from "axios";
 
 function Post({
   displayName,
@@ -29,6 +31,11 @@ function Post({
 }) {
   const [showBox, setShowBox] = useState(false);
   const [like, setLike] = useState(liked);
+
+  let linkedText = linkifyHtml(text, {
+    className: "text-[#1976d2]",
+    target: "_blank",
+  });
 
   let mediaFile;
   function getType(filename) {
@@ -74,7 +81,7 @@ function Post({
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.6 }}
         transition={{ duration: 0.3 }}
-        className="flex flex-col space-x-3 border-y p-5 border-gray-100 "
+        className="flex flex-col space-x-3 border-b-[1px] p-5 border-gray-200 "
       >
         <div className="flex space-x-3 h-auto ">
           <img
@@ -92,11 +99,11 @@ function Post({
                 {timestamp}
               </Moment>
             </div>
-            <TextareaAutosize
-              value={text}
-              className="resize-none outline-none bg-inherit"
-              disabled
-            />
+
+            <div className="resize-none outline-none bg-inherit whitespace-pre">
+            {parse(linkedText)}
+            </div>
+
             {image && (
               <img className="imgFig p-1 pt-3 w-fit" src={image} alt="" />
             )}

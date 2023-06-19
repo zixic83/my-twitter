@@ -16,7 +16,7 @@ div::-webkit-scrollbar {
 .feed-header {
   position: sticky;
   top: 0;
-  background: rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   z-index: 100;

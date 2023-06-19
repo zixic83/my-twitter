@@ -16,3 +16,7 @@
 :root {
   font-family: "Twemoji from xem.github.io", Segoe UI Emoji, Segoe UI Symbol, Segoe, sans-serif;
 }
+
+body {
+  background-image: url('fabric_of_squares_gray.png');
+}

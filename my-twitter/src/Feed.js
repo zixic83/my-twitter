@@ -6,6 +6,7 @@ import TweetBox from "./TweetBox";
 import Post from "./Post";
 import { UserContext } from "./UserContext";
 import { Bars3Icon } from "@heroicons/react/24/outline";
+import useMediaQuery from "./useMediaQuery";
 
 function Feed() {
   const [fetchedData, setFetchedData] = useState("");
@@ -13,7 +14,6 @@ function Feed() {
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
   const { user, setUser, click, setClick } = useContext(UserContext);
-  const windowWidth = useRef(window.innerWidth);
 
   useEffect(() => {
     const func = async () => {
@@ -91,20 +91,19 @@ function Feed() {
     });
   }
 
-
+  const isAboveMediumScreen = useMediaQuery("(min-width:1060px)");
 
   return (
     <div id="box" className="feed basis-3/5 h-screen">
       {/*Header */}
       <div className="feed-header flex justify-between items-center">
         <div className="font-semibold text-xl">Home</div>
-        <Bars3Icon
-          className="h-6 w-6 hover:text-blue-300 block md:hidden cursor-pointer"
-          onClick={() => {
-            setClick(!click);
-            
-          }}
-        />
+        {/*           <Bars3Icon
+            className="h-6 w-6 hover:text-blue-300 cursor-pointer"
+            onClick={() => {
+              setClick(!click);
+            }}
+          /> */}
       </div>
       {/*Tweet Box */}
       <TweetBox
