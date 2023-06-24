@@ -39,9 +39,7 @@ function Home() {
     <HelmetProvider context={helmetContext}>
       <Helmet>
         <title>{title}</title>
-        <meta
-          name="description"
-        />
+        <meta name="description" />
       </Helmet>
       <div className="app flex">
         <UserContext.Provider
@@ -50,27 +48,6 @@ function Home() {
           <div className="basis-1/5 h-screen">
             <Sidebar />
           </div>
-          {/*           {isAboveMediumScreen ? (
-            <div>
-              <Sidebar />
-            </div>
-          ) : (
-            <span>
-              <Bars3Icon
-                className="h-6 w-6 hover:text-blue-300 cursor-pointer"
-                onClick={() => {
-                  setClick(!click);
-                }}
-              />
-            </span>
-          )} */}
-
-          {/*           {click && (
-            <div className="space-between bg-white">
-              <Sidebar />
-            </div>
-          )}
- */}
           <div className="basis-3/5 h-screen">
             <Feed />
           </div>

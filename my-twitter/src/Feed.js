@@ -96,14 +96,8 @@ function Feed() {
   return (
     <div id="box" className="feed basis-3/5 h-screen">
       {/*Header */}
-      <div className="feed-header flex justify-between items-center">
+      <div className="feed-header">
         <div className="font-semibold text-xl">Home</div>
-        {/*           <Bars3Icon
-            className="h-6 w-6 hover:text-blue-300 cursor-pointer"
-            onClick={() => {
-              setClick(!click);
-            }}
-          /> */}
       </div>
       {/*Tweet Box */}
       <TweetBox
