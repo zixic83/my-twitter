@@ -14,6 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import linkifyHtml from "linkify-html";
 import parse from "html-react-parser";
 import axios from "axios";
+import { TextareaAutosize } from "@mui/base";
 
 function Post({
   displayName,
@@ -100,8 +101,8 @@ function Post({
               </Moment>
             </div>
 
-            <div className="resize-none outline-none bg-inherit whitespace-pre">
-            {parse(linkedText)}
+            <div className="resize-none bg-inherit whitespace-pre-wrap">
+              {parse(linkedText)}
             </div>
 
             {image && (
