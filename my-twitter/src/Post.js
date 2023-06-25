@@ -12,9 +12,9 @@ import { HeartIcon as Heart1 } from "@heroicons/react/24/solid";
 import ImageGallery from "react-image-gallery";
 import { motion, AnimatePresence } from "framer-motion";
 import linkifyHtml from "linkify-html";
+import * as linkify from "linkifyjs";
 import parse from "html-react-parser";
 import axios from "axios";
-import { TextareaAutosize } from "@mui/base";
 
 function Post({
   displayName,
@@ -32,10 +32,47 @@ function Post({
 }) {
   const [showBox, setShowBox] = useState(false);
   const [like, setLike] = useState(liked);
+  const [title, setTitle] = useState('Loading...');
+
+useEffect(() => {
+  //Runs only on the first render
+
+  const links = linkify.find(text);
+  
+  if (links[0] === undefined) {
+    return
+  } 
+
+  const url = links[0].value;
+
+async function doGetRequest() {
+  const res = await axios.get(
+    `https://jsonlink.io/api/extract?url=${url}`
+  );
+
+  setTitle(res.data.title)
+  }
+// backup API
+/*   async function doGetRequest() {
+    let res = await axios.get(
+      `https://api.vvhan.com/api/title?url=${url}`
+    );
+
+    setTitle(res.data.title);
+  } */
+  
+  if (url !== undefined) {
+    doGetRequest()
+  }
+
+}, [text]);
 
   let linkedText = linkifyHtml(text, {
     className: "text-[#1976d2]",
     target: "_blank",
+    format: {
+      url: (value) => (title),
+    },
   });
 
   let mediaFile;
@@ -101,7 +138,7 @@ function Post({
               </Moment>
             </div>
 
-            <div className="resize-none bg-inherit whitespace-pre-wrap">
+            <div className="bg-inherit whitespace-pre-wrap">
               {parse(linkedText)}
             </div>
 
