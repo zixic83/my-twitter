@@ -1,5 +1,5 @@
 # myTwitter
-This is a private local Twitter clone I built for my own use. I use it as my personal electronic diary. 
+This is a private local Twitter clone I built for my own use. I use it as my personal digital journal. 
 
 ## Getting Started
 ### Dependencies
