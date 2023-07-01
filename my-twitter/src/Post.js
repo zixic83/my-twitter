@@ -1,4 +1,4 @@
-import React, { useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Moment from "react-moment";
 import ReactPlayer from "react-player";
 import UpdateBox from "./UpdateBox";
@@ -32,46 +32,27 @@ function Post({
 }) {
   const [showBox, setShowBox] = useState(false);
   const [like, setLike] = useState(liked);
-  const [title, setTitle] = useState('Loading...');
+  const [title, setTitle] = useState("Loading...");
 
-useEffect(() => {
-  //Runs only on the first render
+  useEffect(() => {
+    const links = linkify.find(text);
 
-  const links = linkify.find(text);
-  
-  if (links[0] === undefined) {
-    return
-  } 
+    if (links[0] === undefined) {
+      return;
+    }
 
-  const url = links[0].value;
+    const url = links[0].value;
 
-async function doGetRequest() {
-  const res = await axios.get(
-    `https://jsonlink.io/api/extract?url=${url}`
-  );
-
-  setTitle(res.data.title)
-  }
-// backup API
-/*   async function doGetRequest() {
-    let res = await axios.get(
-      `https://api.vvhan.com/api/title?url=${url}`
-    );
-
-    setTitle(res.data.title);
-  } */
-  
-  if (url !== undefined) {
-    doGetRequest()
-  }
-
-}, [text]);
+    axios.post("http://localhost:5000/url", { url }).then((res) => {
+      setTitle(res.data);
+    });
+  }, [text]);
 
   let linkedText = linkifyHtml(text, {
     className: "text-[#1976d2]",
     target: "_blank",
     format: {
-      url: (value) => (title),
+      url: () => title,
     },
   });
 
