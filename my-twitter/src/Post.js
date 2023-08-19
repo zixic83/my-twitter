@@ -124,7 +124,11 @@ function Post({
             </div>
 
             {image && (
-              <img className="imgFig p-1 pt-3 w-fit" src={image} alt="" />
+              <img
+                className="imgFig p-1 pt-3 w-fit"
+                src={image}
+                alt=""
+              />
             )}
             {mediaFile}
             {/* Gallery */}
