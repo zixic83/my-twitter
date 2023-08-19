@@ -35,7 +35,13 @@ function Post({
   const [title, setTitle] = useState("Loading...");
 
   useEffect(() => {
-    const links = linkify.find(text);
+    let links = 'test1';
+    if (text !== undefined) {
+      links = linkify.find(text);
+    } else {
+      return;
+    }
+    
 
     if (links[0] === undefined) {
       return;
@@ -48,14 +54,20 @@ function Post({
     });
   }, [text]);
 
-  let linkedText = linkifyHtml(text, {
+  let linkedText = 'test'
+
+  if (text !== undefined) {
+  linkedText = linkifyHtml(text, {
     className: "text-[#1976d2]",
     target: "_blank",
     format: {
       url: () => title,
     },
   });
-
+  } else {
+    return;
+}
+  
   let mediaFile;
   function getType(filename) {
     // get file extension
