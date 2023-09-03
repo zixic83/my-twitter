@@ -35,8 +35,7 @@ function Home() {
       <Helmet>
         <title>{title}</title>
         <meta
-          name="description"
-          content="Beginner friendly page for learning React Helmet."
+          name="favourites"
         />
       </Helmet>
       <div className="app flex">
