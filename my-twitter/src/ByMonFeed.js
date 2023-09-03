@@ -5,20 +5,28 @@ import "./Feed.css";
 import Post from "./Post";
 import { UserContext } from "./UserContext";
 
-function FavFeed() {
-  const [fetchedData, setFetchedData] = useState("");
+function ByMonFeed({submittedDate}) {
+  const [fetchedData, setFetchedData] = useState('');
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    const func = async () => {
-        const allTweets = await axios.get(`http://localhost:5000/allFavs?p=0`);
-      setFetchedData(allTweets.data);
-    };
-    func();
-  }, []);
+
+    async function loadDate(year, month) {
+      let result = await axios.patch("http://localhost:5000/byMon", {
+        data: { year: year, month: month },
+      });
+      setFetchedData(result.data);
+      console.log(result.data);
+      return result;
+    }
+
+    loadDate(submittedDate.$y, submittedDate.$M);
+  }, [submittedDate.$y, submittedDate.$M]);
+
+  
 
   const getAllTweets = async () => {
     const allTweets = await axios.get(`http://localhost:5000/allFavs?p=0`);
@@ -91,7 +99,7 @@ function FavFeed() {
     <div id="box" className="feed basis-3/5 h-screen">
       {/*Header */}
       <div className="feed-header">
-        <span className="font-semibold text-xl">Favourites</span>
+        <span className="font-semibold text-xl">Search</span>
       </div>
       {/* go through each tweet in the allTweets json */}
       <InfiniteScroll
@@ -126,4 +134,4 @@ function FavFeed() {
   );
 }
 
-export default FavFeed;
+export default ByMonFeed;

@@ -6,7 +6,6 @@ import TweetBox from "./TweetBox";
 import Post from "./Post";
 import { UserContext } from "./UserContext";
 import { Bars3Icon } from "@heroicons/react/24/outline";
-import useMediaQuery from "./useMediaQuery";
 
 function Feed() {
   const [fetchedData, setFetchedData] = useState("");
@@ -90,8 +89,6 @@ function Feed() {
       data: { id: id },
     });
   }
-
-  const isAboveMediumScreen = useMediaQuery("(min-width:1060px)");
 
   return (
     <div id="box" className="feed basis-3/5 h-screen">

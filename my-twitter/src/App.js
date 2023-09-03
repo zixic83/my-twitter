@@ -9,23 +9,14 @@ import {
 } from "react-router-dom";
 import Home from "./Home";
 import Favourites from "./Favourites";
-import Sidebar from "./Sidebar";
-
-// const router = createBrowserRouter(
-//   createRoutesFromElements(
-//     <Route path="/" element={<Sidebar />}>
-//       <Route index element={<Home />} />
-//       <Route path="favourites" element={<Favourites />} />
-//     </Route>
-//   )
-// );
+import ByMon from "./ByMon"
 
 function App() {
   return (
-    
-    <Routes>      
-        <Route index element={<Home />} />
-        <Route path="favourites" element={<Favourites />} />
+    <Routes>
+      <Route index element={<Home />} />
+      <Route path="favourites" element={<Favourites />} />
+      <Route path="bymon" element={<ByMon />} />
     </Routes>
   );
 }
