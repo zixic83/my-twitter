@@ -18,30 +18,30 @@ import axios from "axios";
 
 function Post({
   displayName,
-  text,
-  image,
-  video,
+  text: tweetText,
+  image: tweetMedia,
+  video: tweetVideo,
   photoArray,
   timestamp,
   avatar,
-  id,
+  id: _id,
   deletePost,
   updatePost,
   updateLike,
   liked,
+  updatedAt,
 }) {
   const [showBox, setShowBox] = useState(false);
   const [like, setLike] = useState(liked);
   const [title, setTitle] = useState("Loading...");
 
   useEffect(() => {
-    let links = 'test1';
-    if (text !== undefined) {
-      links = linkify.find(text);
+    let links = "test1";
+    if (tweetText !== undefined) {
+      links = linkify.find(tweetText);
     } else {
       return;
     }
-    
 
     if (links[0] === undefined) {
       return;
@@ -52,22 +52,22 @@ function Post({
     axios.post("http://localhost:5000/url", { url }).then((res) => {
       setTitle(res.data);
     });
-  }, [text]);
+  }, [tweetText]);
 
-  let linkedText = 'test'
+  let linkedText = "test";
 
-  if (text !== undefined) {
-  linkedText = linkifyHtml(text, {
-    className: "text-[#1976d2]",
-    target: "_blank",
-    format: {
-      url: () => title,
-    },
-  });
+  if (tweetText !== undefined) {
+    linkedText = linkifyHtml(tweetText, {
+      className: "text-[#1976d2]",
+      target: "_blank",
+      format: {
+        url: () => title,
+      },
+    });
   } else {
     return;
-}
-  
+  }
+
   let mediaFile;
   function getType(filename) {
     // get file extension
@@ -75,15 +75,20 @@ function Post({
     return extension;
   }
 
-  if (video) {
-    if (getType(video) === ("mp3" || "aac")) {
+  if (tweetVideo) {
+    if (getType(tweetVideo) === ("mp3" || "aac")) {
       mediaFile = (
-        <audio className="pt-3 p-1 w-full" controls src={video}></audio>
+        <audio className="pt-3 p-1 w-full" controls src={tweetVideo}></audio>
       );
     } else {
       mediaFile = (
         <div className="player-wrapper">
-          <ReactPlayer url={video} controls={true} height="60vh" width="auto" />
+          <ReactPlayer
+            url={tweetVideo}
+            controls={true}
+            height="60vh"
+            width="auto"
+          />
         </div>
       );
     }
@@ -129,18 +134,27 @@ function Post({
               <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
                 {timestamp}
               </Moment>
+              {updatedAt && (
+                <>
+                  <p className="text-sm text-gray-500">
+                    Edited:&nbsp;
+                    <Moment
+                      format="MMM DD HH:mm"
+                      className="text-sm text-gray-500"
+                    >
+                      {updatedAt}
+                    </Moment>
+                  </p>
+                </>
+              )}
             </div>
 
             <div className="bg-inherit whitespace-pre-wrap">
               {parse(linkedText)}
             </div>
 
-            {image && (
-              <img
-                className="imgFig p-1 pt-3 w-fit"
-                src={image}
-                alt=""
-              />
+            {tweetMedia && (
+              <img className="imgFig p-1 pt-3 w-fit" src={tweetMedia} alt="" />
             )}
             {mediaFile}
             {/* Gallery */}
@@ -162,7 +176,7 @@ function Post({
           <div
             onClick={() => {
               setLike(!like);
-              updateLike(id);
+              updateLike(_id);
             }}
           >
             {like ? (
@@ -178,18 +192,18 @@ function Post({
             />
             {showBox && (
               <UpdateBox
-                id={id}
+                id={_id}
                 updatePost={updatePost}
                 setShowBox={setShowBox}
                 showBox={showBox}
-                text={text}
+                text={tweetText}
               />
             )}
           </div>
           <div>
             <TrashIcon
               className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400"
-              onClick={() => deletePost(id)}
+              onClick={() => deletePost(_id)}
             />
           </div>
         </div>

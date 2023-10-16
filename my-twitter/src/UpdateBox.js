@@ -15,7 +15,7 @@ export default function UpdateBox({ updatePost,id,text,setShowBox,showBox }) {
   }
 
   return (
-    <div>
+    <>
       <Dialog open={showBox} onClose={() => setShowBox(false)}>
         <DialogTitle>Update Tweet</DialogTitle>
         <DialogContent>
@@ -39,6 +39,6 @@ export default function UpdateBox({ updatePost,id,text,setShowBox,showBox }) {
           <Button onClick={handleSubmit}>Submit</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }
