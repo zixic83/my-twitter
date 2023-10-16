@@ -134,7 +134,8 @@ function Post({
               <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
                 {timestamp}
               </Moment>
-              {updatedAt && (
+              {new Date(timestamp).getTime() !==
+                new Date(updatedAt).getTime() && (
                 <>
                   <p className="text-sm text-gray-500">
                     Edited:&nbsp;
