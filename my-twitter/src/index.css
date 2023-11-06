@@ -7,14 +7,13 @@
 }
 
 @font-face {
-  font-family: "Twemoji from xem.github.io";
+  font-family: "twemoji-mozilla";
   src: url("https://xem.github.io/unicode13/Twemoji.ttf") format("truetype");
   unicode-range: U+00A9-E007F;
-  /* @see https://github.com/mozilla/twemoji-colr/issues/56 */
 }
 
 :root {
-  font-family: "Twemoji from xem.github.io", Segoe UI Emoji, Segoe UI Symbol, Segoe, sans-serif;
+  font-family: "twemoji-mozilla", Segoe UI Emoji, Segoe UI Symbol, Segoe, sans-serif;
 }
 
 body {

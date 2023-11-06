@@ -110,6 +110,11 @@ function Post({
 
   const photos = photosToObjects();
 
+  console.log(
+    tweetText,
+    updatedAt === undefined 
+  );
+
   return (
     <AnimatePresence>
       <motion.div
@@ -134,20 +139,29 @@ function Post({
               <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
                 {timestamp}
               </Moment>
-              {new Date(timestamp).getTime() !==
-                new Date(updatedAt).getTime() && (
+
+              {
                 <>
-                  <p className="text-sm text-gray-500">
-                    Edited:&nbsp;
-                    <Moment
-                      format="MMM DD HH:mm"
-                      className="text-sm text-gray-500"
-                    >
-                      {updatedAt}
-                    </Moment>
-                  </p>
+                  {/* Hide edited time if condition is true (2nd con = hide edited if time difference is more than 20ms)*/}
+                  {updatedAt === undefined ||
+                  new Date(updatedAt).getTime() -
+                    new Date(timestamp).getTime() <
+                    20 ? (
+                    ``
+                  ) : (
+                    <p className="text-sm text-gray-500">
+                      Edited:&nbsp;{" "}
+
+                      <Moment
+                        format="MMM DD HH:mm"
+                        className="text-sm text-gray-500"
+                      >
+                        {updatedAt}
+                      </Moment>
+                    </p>
+                  )}
                 </>
-              )}
+              }
             </div>
 
             <div className="bg-inherit whitespace-pre-wrap">
@@ -183,12 +197,12 @@ function Post({
             {like ? (
               <Heart1 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-red-500" />
             ) : (
-              <Heart2 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
+              <Heart2 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400 hover:text-[#b0d7eb]" />
             )}
           </div>
           <div>
             <PencilSquareIcon
-              className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400"
+              className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400 hover:text-[#b0d7eb]"
               onClick={() => setShowBox(true)}
             />
             {showBox && (
@@ -203,7 +217,7 @@ function Post({
           </div>
           <div>
             <TrashIcon
-              className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400"
+              className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400 hover:text-[#b0d7eb]"
               onClick={() => deletePost(_id)}
             />
           </div>
