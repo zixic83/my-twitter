@@ -16,8 +16,18 @@ export default function UpdateBox({ updatePost,id,text,setShowBox,showBox }) {
 
   return (
     <>
-      <Dialog open={showBox} onClose={() => setShowBox(false)}>
-        <DialogTitle>Update Tweet</DialogTitle>
+      <Dialog
+        open={showBox}
+        onClose={() => setShowBox(false)}
+        PaperProps={{ sx: { borderRadius: "8px" } }}
+      >
+        <DialogTitle
+          sx={{
+            fontWeight: 600,
+          }}
+        >
+          Edit Tweet
+        </DialogTitle>
         <DialogContent>
           <TextField
             margin="dense"
@@ -26,17 +36,42 @@ export default function UpdateBox({ updatePost,id,text,setShowBox,showBox }) {
             rows={5}
             multiline
             variant="outlined"
+            color="info"
             //https://stackoverflow.com/questions/44671082/how-do-i-programatically-fill-input-field-value-with-react
             value={updateText}
+            defaultValue={text}
             onChange={(e) => setUpdateText(e.target.value)}
             sx={{
               width: 500,
+              marginTop: 0,
             }}
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowBox(false)}>Cancel</Button>
-          <Button onClick={handleSubmit}>Submit</Button>
+        <DialogActions
+          sx={{
+            marginTop: -2,
+            marginBottom: 1,
+            marginRight: 2,
+          }}
+        >
+          <Button
+            variant="outlined"
+            style={{
+              textTransform: "none",
+              color: "#50b7f5",
+              borderColor: "#50b7f5",
+            }}
+            onClick={() => setShowBox(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            style={{ textTransform: "none", backgroundColor: "#50b7f5" }}
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
         </DialogActions>
       </Dialog>
     </>

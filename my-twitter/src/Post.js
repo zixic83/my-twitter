@@ -110,10 +110,7 @@ function Post({
 
   const photos = photosToObjects();
 
-  console.log(
-    tweetText,
-    updatedAt === undefined 
-  );
+  console.log(tweetText, updatedAt === undefined);
 
   return (
     <AnimatePresence>
@@ -122,7 +119,7 @@ function Post({
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.6 }}
         transition={{ duration: 0.3 }}
-        className="flex flex-col space-x-3 border-b-[1px] p-5 border-gray-200 "
+        className="flex flex-col space-x-3 border-b-[1px] p-5 pb-2 border-gray-200 "
       >
         <div className="flex space-x-3 h-auto ">
           <img
@@ -150,8 +147,7 @@ function Post({
                     ``
                   ) : (
                     <p className="text-sm text-gray-500">
-                      Edited:&nbsp;{" "}
-
+                      Edited:&nbsp;
                       <Moment
                         format="MMM DD HH:mm"
                         className="text-sm text-gray-500"
@@ -187,24 +183,31 @@ function Post({
           </div>
         </div>
 
-        <div className="mt-5 flex justify-around">
+        <div className="mt-4 flex justify-around">
           <div
             onClick={() => {
               setLike(!like);
               updateLike(_id);
             }}
+            className="flex items-center group max-w-fit cursor-pointer px-2 py-2 rounded-full 
+      hover:bg-[#f918801a] transition-all duration-200"
           >
             {like ? (
-              <Heart1 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-red-500" />
+              <Heart1 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-[#f91880]" />
             ) : (
-              <Heart2 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400 hover:text-[#b0d7eb]" />
+              <Heart2 className="h-5 w-5 cursor-pointer  space-x-3 text-gray-400 group-hover:text-[#f91880]" />
             )}
           </div>
-          <div>
+
+          <div
+            className="flex items-center group max-w-fit cursor-pointer px-2 py-2 rounded-full 
+      hover:bg-[#1d9bf01a] focus:bg-black transition-all duration-200"
+          >
             <PencilSquareIcon
-              className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400 hover:text-[#b0d7eb]"
+              className="h-5 w-5  cursor-pointer space-x-3 text-gray-400 group-hover:text-[#1d9bf0]"
               onClick={() => setShowBox(true)}
             />
+
             {showBox && (
               <UpdateBox
                 id={_id}
@@ -216,10 +219,15 @@ function Post({
             )}
           </div>
           <div>
-            <TrashIcon
-              className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400 hover:text-[#b0d7eb]"
-              onClick={() => deletePost(_id)}
-            />
+            <div
+              className="flex items-center group max-w-fit cursor-pointer px-2 py-2 rounded-full 
+      hover:bg-[#00ba7c1a] transition-all duration-200"
+            >
+              <TrashIcon
+                className="h-5 w-5  cursor-pointer space-x-3 text-gray-400 group-hover:text-[#00ba7c]"
+                onClick={() => deletePost(_id)}
+              />
+            </div>
           </div>
         </div>
       </motion.div>
