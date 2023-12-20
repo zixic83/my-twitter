@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Moment from "react-moment";
+import moment from "moment";
 import ReactPlayer from "react-player";
 import UpdateBox from "./UpdateBox";
 import "./Post.css";
@@ -112,6 +113,31 @@ function Post({
 
   console.log(tweetText, updatedAt === undefined);
 
+  /* Post date relevant to today's time */
+  let relevantDate = () => {
+    /* Today */
+    if (moment(timestamp).isSame(moment(), "day")) {
+      return (
+        <Moment format="[Today] HH:mm" className="text-sm text-gray-500">
+          {timestamp}
+        </Moment>
+      );
+    }
+    /* Yesterday */
+    if (moment(timestamp).isSame(moment().subtract(1, 'day'), "day")) {
+      return (
+        <Moment format="[Yesterday] HH:mm" className="text-sm text-gray-500">
+          {timestamp}
+        </Moment>
+      );
+    }
+    return (
+      <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
+        {timestamp}
+      </Moment>
+    );
+  }
+
   return (
     <AnimatePresence>
       <motion.div
@@ -133,10 +159,9 @@ function Post({
               <h3 layout className="mr-1 font-bold">
                 {displayName}
               </h3>
-              <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
-                {timestamp}
-              </Moment>
 
+              {relevantDate()}
+              
               {
                 <>
                   {/* Hide edited time if condition is true (2nd con = hide edited if time difference is more than 20ms)*/}
