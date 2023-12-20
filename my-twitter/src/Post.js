@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Moment from "react-moment";
+import moment from "moment";
 import ReactPlayer from "react-player";
 import UpdateBox from "./UpdateBox";
 import "./Post.css";
@@ -18,30 +19,30 @@ import axios from "axios";
 
 function Post({
   displayName,
-  text,
-  image,
-  video,
+  text: tweetText,
+  image: tweetMedia,
+  video: tweetVideo,
   photoArray,
   timestamp,
   avatar,
-  id,
+  id: _id,
   deletePost,
   updatePost,
   updateLike,
   liked,
+  updatedAt,
 }) {
   const [showBox, setShowBox] = useState(false);
   const [like, setLike] = useState(liked);
   const [title, setTitle] = useState("Loading...");
 
   useEffect(() => {
-    let links = 'test1';
-    if (text !== undefined) {
-      links = linkify.find(text);
+    let links = "test1";
+    if (tweetText !== undefined) {
+      links = linkify.find(tweetText);
     } else {
       return;
     }
-    
 
     if (links[0] === undefined) {
       return;
@@ -52,22 +53,22 @@ function Post({
     axios.post("http://localhost:5000/url", { url }).then((res) => {
       setTitle(res.data);
     });
-  }, [text]);
+  }, [tweetText]);
 
-  let linkedText = 'test'
+  let linkedText = "test";
 
-  if (text !== undefined) {
-  linkedText = linkifyHtml(text, {
-    className: "text-[#1976d2]",
-    target: "_blank",
-    format: {
-      url: () => title,
-    },
-  });
+  if (tweetText !== undefined) {
+    linkedText = linkifyHtml(tweetText, {
+      className: "text-[#1976d2]",
+      target: "_blank",
+      format: {
+        url: () => title,
+      },
+    });
   } else {
     return;
-}
-  
+  }
+
   let mediaFile;
   function getType(filename) {
     // get file extension
@@ -75,15 +76,20 @@ function Post({
     return extension;
   }
 
-  if (video) {
-    if (getType(video) === ("mp3" || "aac")) {
+  if (tweetVideo) {
+    if (getType(tweetVideo) === ("mp3" || "aac")) {
       mediaFile = (
-        <audio className="pt-3 p-1 w-full" controls src={video}></audio>
+        <audio className="pt-3 p-1 w-full" controls src={tweetVideo}></audio>
       );
     } else {
       mediaFile = (
         <div className="player-wrapper">
-          <ReactPlayer url={video} controls={true} height="60vh" width="auto" />
+          <ReactPlayer
+            url={tweetVideo}
+            controls={true}
+            height="60vh"
+            width="auto"
+          />
         </div>
       );
     }
@@ -105,6 +111,33 @@ function Post({
 
   const photos = photosToObjects();
 
+  console.log(tweetText, updatedAt === undefined);
+
+  /* Post date relevant to today's time */
+  let relevantDate = () => {
+    /* Today */
+    if (moment(timestamp).isSame(moment(), "day")) {
+      return (
+        <Moment format="[Today] HH:mm" className="text-sm text-gray-500">
+          {timestamp}
+        </Moment>
+      );
+    }
+    /* Yesterday */
+    if (moment(timestamp).isSame(moment().subtract(1, 'day'), "day")) {
+      return (
+        <Moment format="[Yesterday] HH:mm" className="text-sm text-gray-500">
+          {timestamp}
+        </Moment>
+      );
+    }
+    return (
+      <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
+        {timestamp}
+      </Moment>
+    );
+  }
+
   return (
     <AnimatePresence>
       <motion.div
@@ -112,7 +145,7 @@ function Post({
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.6 }}
         transition={{ duration: 0.3 }}
-        className="flex flex-col space-x-3 border-b-[1px] p-5 border-gray-200 "
+        className="flex flex-col space-x-3 border-b-[1px] p-5 pb-2 border-gray-200 "
       >
         <div className="flex space-x-3 h-auto ">
           <img
@@ -126,21 +159,38 @@ function Post({
               <h3 layout className="mr-1 font-bold">
                 {displayName}
               </h3>
-              <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
-                {timestamp}
-              </Moment>
+
+              {relevantDate()}
+              
+              {
+                <>
+                  {/* Hide edited time if condition is true (2nd con = hide edited if time difference is more than 20ms)*/}
+                  {updatedAt === undefined ||
+                  new Date(updatedAt).getTime() -
+                    new Date(timestamp).getTime() <
+                    20 ? (
+                    ``
+                  ) : (
+                    <p className="text-sm text-gray-500">
+                      Edited:&nbsp;
+                      <Moment
+                        format="MMM DD HH:mm"
+                        className="text-sm text-gray-500"
+                      >
+                        {updatedAt}
+                      </Moment>
+                    </p>
+                  )}
+                </>
+              }
             </div>
 
             <div className="bg-inherit whitespace-pre-wrap">
               {parse(linkedText)}
             </div>
 
-            {image && (
-              <img
-                className="imgFig p-1 pt-3 w-fit"
-                src={image}
-                alt=""
-              />
+            {tweetMedia && (
+              <img className="imgFig p-1 pt-3 w-fit" src={tweetMedia} alt="" />
             )}
             {mediaFile}
             {/* Gallery */}
@@ -158,39 +208,51 @@ function Post({
           </div>
         </div>
 
-        <div className="mt-5 flex justify-around">
+        <div className="mt-4 flex justify-around">
           <div
             onClick={() => {
               setLike(!like);
-              updateLike(id);
+              updateLike(_id);
             }}
+            className="flex items-center group max-w-fit cursor-pointer px-2 py-2 rounded-full 
+      hover:bg-[#f918801a] transition-all duration-200"
           >
             {like ? (
-              <Heart1 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-red-500" />
+              <Heart1 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-[#f91880]" />
             ) : (
-              <Heart2 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400" />
+              <Heart2 className="h-5 w-5 cursor-pointer  space-x-3 text-gray-400 group-hover:text-[#f91880]" />
             )}
           </div>
-          <div>
+
+          <div
+            className="flex items-center group max-w-fit cursor-pointer px-2 py-2 rounded-full 
+      hover:bg-[#1d9bf01a] focus:bg-black transition-all duration-200"
+          >
             <PencilSquareIcon
-              className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400"
+              className="h-5 w-5  cursor-pointer space-x-3 text-gray-400 group-hover:text-[#1d9bf0]"
               onClick={() => setShowBox(true)}
             />
+
             {showBox && (
               <UpdateBox
-                id={id}
+                id={_id}
                 updatePost={updatePost}
                 setShowBox={setShowBox}
                 showBox={showBox}
-                text={text}
+                text={tweetText}
               />
             )}
           </div>
           <div>
-            <TrashIcon
-              className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-gray-400"
-              onClick={() => deletePost(id)}
-            />
+            <div
+              className="flex items-center group max-w-fit cursor-pointer px-2 py-2 rounded-full 
+      hover:bg-[#00ba7c1a] transition-all duration-200"
+            >
+              <TrashIcon
+                className="h-5 w-5  cursor-pointer space-x-3 text-gray-400 group-hover:text-[#00ba7c]"
+                onClick={() => deletePost(_id)}
+              />
+            </div>
           </div>
         </div>
       </motion.div>

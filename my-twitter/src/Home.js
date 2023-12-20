@@ -33,8 +33,6 @@ function Home() {
 
   const helmetContext = {};
 
-  const isAboveMediumScreen = useMediaQuery("(min-width:1060px)");
-
   return (
     <HelmetProvider context={helmetContext}>
       <Helmet>
