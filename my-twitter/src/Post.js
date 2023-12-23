@@ -111,20 +111,18 @@ function Post({
 
   const photos = photosToObjects();
 
-  console.log(tweetText, updatedAt === undefined);
-
   /* Post date relevant to today's time */
   let relevantDate = () => {
     /* Today */
     if (moment(timestamp).isSame(moment(), "day")) {
       return (
-        <Moment format="[Today] HH:mm" className="text-sm text-gray-500">
+        <Moment fromNow className="text-sm text-gray-500">
           {timestamp}
         </Moment>
       );
     }
     /* Yesterday */
-    if (moment(timestamp).isSame(moment().subtract(1, 'day'), "day")) {
+    if (moment(timestamp).isSame(moment().subtract(1, "day"), "day")) {
       return (
         <Moment format="[Yesterday] HH:mm" className="text-sm text-gray-500">
           {timestamp}
@@ -136,7 +134,10 @@ function Post({
         {timestamp}
       </Moment>
     );
-  }
+  };
+
+ /*  console.log(timestamp.substring(0,4) === new Date().getFullYear().toString()); */
+
 
   return (
     <AnimatePresence>
@@ -160,8 +161,15 @@ function Post({
                 {displayName}
               </h3>
 
-              {relevantDate()}
-              
+              {/* Current year? hide year: show year too */}
+              {timestamp.substring(0, 4) === new Date().getFullYear().toString() ? (
+                relevantDate()
+              ) : (
+                <Moment format="YYYY MMM DD HH:mm" className="text-sm text-gray-500">
+                  {timestamp}
+                </Moment>
+              )}
+
               {
                 <>
                   {/* Hide edited time if condition is true (2nd con = hide edited if time difference is more than 20ms)*/}
