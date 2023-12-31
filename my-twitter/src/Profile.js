@@ -1,9 +1,23 @@
-import React from "react";
+import React,{ useEffect, useState, useContext, useRef } from "react"; 
 import { UserIcon } from "@heroicons/react/24/outline";
 import SettingForm from "./SettingForm";
+import axios from "axios";
 
+function Profile({ open, setOpen }) {
+  const [currentName, setName] = useState();
+  const [currentAvatar, setAvatar] = useState();
 
-function Profile({open,setOpen}) {
+  useEffect(() => {
+    const func = async () => {
+      const currentUser = await axios.get(`http://localhost:5000/user`);
+      setName(currentUser.data[0].name);
+      setAvatar(currentUser.data[0].avatar);
+    };
+    func();
+  });
+
+  const currentUser = { currentName, currentAvatar };
+
   return (
     <div
       className={`group flex items-center space-x-2 max-w-fit cursor-pointer px-4 py-3 rounded-full 
@@ -16,7 +30,7 @@ function Profile({open,setOpen}) {
       >
         Profile
       </h2>
-      {open ? <SettingForm setOpen={setOpen} open={open} /> : null}
+      {open ? <SettingForm setOpen={setOpen} open={open} {...currentUser} /> : null}
     </div>
   );
 }

@@ -10,12 +10,24 @@ import {
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { HeartIcon as Heart1 } from "@heroicons/react/24/solid";
-import ImageGallery from "react-image-gallery";
 import { motion, AnimatePresence } from "framer-motion";
 import linkifyHtml from "linkify-html";
 import * as linkify from "linkifyjs";
 import parse from "html-react-parser";
 import axios from "axios";
+import { getImageSize } from "react-image-size";
+
+import {
+  PhotoAlbum,
+  RenderPhoto,
+  RenderRowContainer,
+} from "react-photo-album";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+
+// import optional lightbox plugins
+import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 function Post({
   displayName,
@@ -35,8 +47,11 @@ function Post({
   const [showBox, setShowBox] = useState(false);
   const [like, setLike] = useState(liked);
   const [title, setTitle] = useState("Loading...");
+  const [index, setIndex] = useState(-1);
+  const [array, setArray] = useState();
 
   useEffect(() => {
+    addToArray();
     let links = "test1";
     if (tweetText !== undefined) {
       links = linkify.find(tweetText);
@@ -78,12 +93,10 @@ function Post({
 
   if (tweetVideo) {
     if (getType(tweetVideo) === ("mp3" || "aac")) {
-      mediaFile = (
-        <audio className="pt-3 p-1 w-full" controls src={tweetVideo}></audio>
-      );
+      mediaFile = <audio className="w-full" controls src={tweetVideo}></audio>;
     } else {
       mediaFile = (
-        <div className="player-wrapper">
+        <div className="">
           <ReactPlayer
             url={tweetVideo}
             controls={true}
@@ -96,20 +109,6 @@ function Post({
   } else {
     mediaFile = null;
   }
-
-  function photosToObjects() {
-    let photos = [];
-    const len = photoArray.length;
-    for (let i = 0; i < len; i++) {
-      photos.push({
-        original: photoArray[i],
-      });
-    }
-
-    return photos;
-  }
-
-  const photos = photosToObjects();
 
   /* Post date relevant to today's time */
   let relevantDate = () => {
@@ -136,8 +135,73 @@ function Post({
     );
   };
 
- /*  console.log(timestamp.substring(0,4) === new Date().getFullYear().toString()); */
+  async function fetchImageSize(photo) {
+    try {
+      const dimensions = await getImageSize(photo);
 
+      return dimensions;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function addToArray() {
+    let newArray = [];
+    for (let photo of photoArray) {
+      const dimensions = await fetchImageSize(photo);
+      newArray.push({
+        src: photo,
+        width: dimensions.width,
+        height: dimensions.height,
+      });
+    }
+    setArray(newArray);
+    return newArray;
+  }
+
+  /* https://stackoverflow.com/questions/53303017/image-link-isnt-clickable-after-hover-effect-has-been-applied */
+  const renderPhoto = ({ imageProps: { photo, style, ...restImageProps } }) => (
+    <div
+      style={{
+        marginRight: 4,
+        width: 250,
+        height: 250,
+        overflow: "hidden",
+        position: "relative",
+      }}
+      className="container"
+    >
+      <img
+        style={{
+          ...style,
+          width: "100%",
+          height: "100%",
+          borderRadius: 20,
+          objectFit: "cover",
+        }}
+        {...restImageProps}
+      />
+      <div className="overlay absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-black bg-fixed opacity-0 transition duration-300 ease-in-out pointer-events-none"></div>
+    </div>
+  );
+
+  const renderRowContainer = ({
+    rowContainerProps,
+    rowIndex,
+    rowsCount,
+    children,
+  }) => (
+    <div
+      {...rowContainerProps}
+      style={{
+        display: "flex",
+        justifyContent: "flex-start",
+        flexDirection: "row",
+      }}
+    >
+      {children}
+    </div>
+  );
 
   return (
     <AnimatePresence>
@@ -162,10 +226,14 @@ function Post({
               </h3>
 
               {/* Current year? hide year: show year too */}
-              {timestamp.substring(0, 4) === new Date().getFullYear().toString() ? (
+              {timestamp.substring(0, 4) ===
+              new Date().getFullYear().toString() ? (
                 relevantDate()
               ) : (
-                <Moment format="YYYY MMM DD HH:mm" className="text-sm text-gray-500">
+                <Moment
+                  format="YYYY MMM DD HH:mm"
+                  className="text-sm text-gray-500"
+                >
                   {timestamp}
                 </Moment>
               )}
@@ -193,25 +261,45 @@ function Post({
               }
             </div>
 
-            <div className="bg-inherit whitespace-pre-wrap">
+            <div
+              className={` bg-inherit whitespace-pre-wrap ${
+                mediaFile || photoArray.length !== 0 || tweetMedia ? "pb-3" : ""
+              }`}
+            >
               {parse(linkedText)}
             </div>
 
             {tweetMedia && (
-              <img className="imgFig p-1 pt-3 w-fit" src={tweetMedia} alt="" />
+              <img className="imgFig w-fit" src={tweetMedia} alt="" />
             )}
             {mediaFile}
             {/* Gallery */}
             {photoArray.length !== 0 && (
-              <div layout>
-                <ImageGallery
-                  items={photos}
-                  showThumbnails={false}
-                  showPlayButton={false}
-                  showFullscreenButton={false}
-                  showBullets={true}
+              <>
+                {/* https://codesandbox.io/p/devbox/yet-another-react-lightbox-examples-9qvmif?file=%2Fsrc%2Fexamples%2FCarousel.tsx */}
+                <PhotoAlbum
+                  photos={array}
+                  layout="rows"
+                  targetRowHeight={300}
+                  onClick={({ index }) => setIndex(index)}
+                  renderPhoto={renderPhoto}
+                  renderRowContainer={renderRowContainer}
                 />
-              </div>
+
+                <Lightbox
+                  slides={array}
+                  controller={{ closeOnBackdropClick: true }}
+                  open={index >= 0}
+                  index={index}
+                  carousel={{
+                    imageProps: {
+                      style: { maxHeight: undefined, maxWidth: undefined },
+                    },
+                  }}
+                  close={() => setIndex(-1)}
+                  plugins={[Thumbnails]}
+                />
+              </>
             )}
           </div>
         </div>

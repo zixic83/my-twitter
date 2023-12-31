@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext,useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -6,24 +6,34 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { UserContext } from "./UserContext";
-import axios from "axios";
 
-function SettingForm({ setOpen, open }) {
-  const [name, setName] = useState();
-  const [avatar, setAvatar] = useState();
+function SettingForm({ setOpen, open, currentName, currentAvatar }) {
+  const [name, setName] = useState(currentName);
+  const [avatar, setAvatar] = useState(currentAvatar);
 
   const { updateUser, setUser } = useContext(UserContext);
 
   async function handleSubmit() {
-      // handle, avatar
+    // handle, avatar
     const updatedUser = await updateUser(name, avatar);
     setUser({ name: updatedUser.data.name, avatar: updatedUser.data.avatar });
-    
+
     setOpen(false);
   }
 
-    return (
-        <Dialog open={open} onClose={() => setOpen(false) }>
+/*   useEffect(() => {
+    const func = async () => {
+      const currentUser = await axios.get(`http://localhost:5000/user`);
+      setName(currentUser.data[0].name);
+      setAvatar(currentUser.data[0].avatar);
+    };
+    func();
+  }, []); */
+
+
+
+  return (
+    <Dialog open={open} onClose={() => setOpen(false)}>
       <DialogTitle>Profile Settings</DialogTitle>
       <DialogContent>
         <TextField
@@ -33,17 +43,18 @@ function SettingForm({ setOpen, open }) {
           label="Handle"
           type="text"
           fullWidth
-            variant="standard"
+          variant="standard"
+          defaultValue={currentName}
           onChange={(e) => setName(e.target.value)}
         />
         <TextField
-          autoFocus
           margin="dense"
           id="name"
           label="Avatar"
           type="text"
           fullWidth
           variant="standard"
+          defaultValue={currentAvatar}
           onChange={(e) => setAvatar(e.target.value)}
         />
       </DialogContent>
