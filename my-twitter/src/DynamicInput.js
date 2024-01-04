@@ -19,7 +19,6 @@ const DynamicInput = forwardRef((tweetPhotos, setTweetPhotos) =>{
         inputData.splice(i, 1);
         setTweetPhotos(inputData);
     }
-  console.log(tweetPhotos)
 
 
   return (

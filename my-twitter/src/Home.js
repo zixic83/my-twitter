@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import Feed from "./Feed";
 import Widgets from "./Widgets";
 import { UserContext } from "./UserContext";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import axios from "axios";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import useMediaQuery from "./useMediaQuery";
@@ -17,6 +17,7 @@ function Home() {
 
   useEffect(() => {
     getData();
+   
   }, []);
 
   async function getData() {
@@ -39,19 +40,20 @@ function Home() {
         <title>{title}</title>
         <meta name="description" />
       </Helmet>
-      <div className="app flex">
+      <div
+        className="app flex"
+      >
         <UserContext.Provider
           value={{ updateUser, setUser, user, click, setClick }}
         >
           <div className="basis-1/5 h-screen">
             <Sidebar />
           </div>
-          <div className="basis-3/5 h-screen">
+          <div className="basis-3/5 h-screen grow-0">
             <Feed />
           </div>
         </UserContext.Provider>
-
-        <div className="basis-1/5 h-screen">
+        <div className="basis-1/5 h-screen grow-0 fixed">
           <Widgets />
         </div>
       </div>

@@ -5,14 +5,13 @@ import "./Feed.css";
 import TweetBox from "./TweetBox";
 import Post from "./Post";
 import { UserContext } from "./UserContext";
-import { Bars3Icon } from "@heroicons/react/24/outline";
 
 function Feed() {
   const [fetchedData, setFetchedData] = useState("");
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
-  const { user, setUser, click, setClick } = useContext(UserContext);
+  const { user, setUser} = useContext(UserContext);
 
   useEffect(() => {
     const func = async () => {
@@ -20,6 +19,8 @@ function Feed() {
       setFetchedData(allTweets.data);
     };
     func();
+
+
   }, []);
 
   const getAllTweets = async () => {
@@ -86,8 +87,12 @@ function Feed() {
     });
   }
 
+
+
+
+
   return (
-    <div id="box" className="feed basis-3/5 h-screen">
+    <div id="box" className="feed basis-3/5 h-screen" >
       {/*Header */}
       <div className="feed-header">
         <div className="font-semibold text-xl">Home</div>

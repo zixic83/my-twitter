@@ -19,7 +19,7 @@ function ByMonFeed({submittedDate}) {
         data: { year: year, month: month },
       });
       setFetchedData(result.data);
-      console.log(result.data);
+      console.log(result.data)
       return result;
     }
 

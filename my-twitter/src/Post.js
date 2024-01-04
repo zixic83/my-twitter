@@ -23,6 +23,7 @@ import {
   RenderRowContainer,
 } from "react-photo-album";
 import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
 
 // import optional lightbox plugins
@@ -168,6 +169,8 @@ function Post({
         height: 250,
         overflow: "hidden",
         position: "relative",
+        borderRadius: 20,
+        marginBottom:4
       }}
       className="container"
     >
@@ -197,6 +200,8 @@ function Post({
         display: "flex",
         justifyContent: "flex-start",
         flexDirection: "row",
+        flexWrap: 'wrap',
+        
       }}
     >
       {children}
@@ -297,7 +302,7 @@ function Post({
                     },
                   }}
                   close={() => setIndex(-1)}
-                  plugins={[Thumbnails]}
+                  plugins={[Thumbnails, Zoom]}
                 />
               </>
             )}

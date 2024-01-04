@@ -29,12 +29,8 @@ function FavFeed() {
           <Post
             key={post.timestamp}
             displayName={user.name}
-            text={post.tweetText}
-            image={post.tweetMedia}
-            video={post.tweetVideo}
-            timestamp={post.timestamp}
-            id={post._id}
             avatar={user.avatar}
+            {...post}
           />
         );
       });
@@ -107,6 +103,7 @@ function FavFeed() {
               <Post
                 key={post._id}
                 displayName={user.name}
+                avatar={user.avatar}
                 text={post.tweetText}
                 image={post.tweetMedia}
                 video={post.tweetVideo}
@@ -117,7 +114,7 @@ function FavFeed() {
                 deletePost={deletePost}
                 updatePost={updatePost}
                 updateLike={updateLike}
-                avatar={user.avatar}
+                {...post}
               />
             );
           })}
