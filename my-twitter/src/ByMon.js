@@ -61,6 +61,7 @@ function Home() {
                   label={"Select Year & Month"}
                   views={["month", "year"]}
                   value={selectedDate}
+                  disableFuture={true}
                   onChange={(newValue) => {
                     setSelectedDate(newValue);
                   }}

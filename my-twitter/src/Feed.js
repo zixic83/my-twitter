@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext} from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroller";
 import "./Feed.css";
@@ -6,7 +6,7 @@ import TweetBox from "./TweetBox";
 import Post from "./Post";
 import { UserContext } from "./UserContext";
 
-function Feed() {
+function Feed({isFav}) {
   const [fetchedData, setFetchedData] = useState("");
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
@@ -15,7 +15,7 @@ function Feed() {
 
   useEffect(() => {
     const func = async () => {
-      const allTweets = await axios.get(`http://localhost:5000/allTweets?p=0`);
+      const allTweets = await axios.get(`http://localhost:5000/all${isFav===false?'Tweets':'Favs'}?p=0`);
       setFetchedData(allTweets.data);
     };
     func();
@@ -24,7 +24,9 @@ function Feed() {
   }, []);
 
   const getAllTweets = async () => {
-    const allTweets = await axios.get(`http://localhost:5000/allTweets?p=0`);
+    const allTweets = await axios.get(
+      `http://localhost:5000/all${isFav===false ? "Tweets" : "Favs"}?p=0`
+    );
     setFetchedData(allTweets.data);
     if (Object.keys(fetchedData).length !== 0) {
       fetchedData.map((post) => {
@@ -43,7 +45,7 @@ function Feed() {
   async function fetchData() {
     setIsFetching(true);
     const nextPageTweets = await axios.get(
-      `http://localhost:5000/allTweets?p=${page}`
+      `http://localhost:5000/all${isFav === false ? "Tweets" : "Favs"}?p=${page}`
     );
     setIsFetching(false);
     setFetchedData([...fetchedData, ...nextPageTweets.data]);
@@ -95,14 +97,15 @@ function Feed() {
     <div id="box" className="feed basis-3/5 h-screen" >
       {/*Header */}
       <div className="feed-header">
-        <div className="font-semibold text-xl">Home</div>
+        <div className="font-semibold text-xl">{isFav===false?'Home':'Favourites'}</div>
       </div>
-      {/*Tweet Box */}
+      {isFav === false ?
       <TweetBox
         setPage={setPage}
         setHasMore={setHasMore}
         getAllTweets={getAllTweets}
-      />
+      />:''}
+      
       {/* go through each tweet in the allTweets json */}
       <InfiniteScroll
         loadMore={fetchData}

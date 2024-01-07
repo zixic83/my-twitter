@@ -14,12 +14,11 @@ function ByMonFeed({submittedDate}) {
 
   useEffect(() => {
 
-    async function loadDate(year, month) {
+  async function loadDate(year, month) {
       let result = await axios.patch("http://localhost:5000/byMon", {
         data: { year: year, month: month },
       });
       setFetchedData(result.data);
-      console.log(result.data)
       return result;
     }
 
@@ -29,7 +28,7 @@ function ByMonFeed({submittedDate}) {
   
 
   const getAllTweets = async () => {
-    const allTweets = await axios.get(`http://localhost:5000/allFavs?p=0`);
+    const allTweets = await axios.get(`http://localhost:5000/allTweets?p=0`);
     setFetchedData(allTweets.data);
     if (Object.keys(fetchedData).length !== 0) {
       fetchedData.map((post) => {
@@ -37,12 +36,8 @@ function ByMonFeed({submittedDate}) {
           <Post
             key={post.timestamp}
             displayName={user.name}
-            text={post.tweetText}
-            image={post.tweetMedia}
-            video={post.tweetVideo}
-            timestamp={post.timestamp}
-            id={post._id}
             avatar={user.avatar}
+            {...post}
           />
         );
       });
@@ -52,7 +47,7 @@ function ByMonFeed({submittedDate}) {
   async function fetchData() {
     setIsFetching(true);
     const nextPageTweets = await axios.get(
-      `http://localhost:5000/allFavs?p=${page}`
+      `http://localhost:5000/allTweets?p=${page}`
     );
     setIsFetching(false);
     setFetchedData([...fetchedData, ...nextPageTweets.data]);
@@ -68,11 +63,11 @@ function ByMonFeed({submittedDate}) {
       data: { id: id },
     });
     // refresh page 0
-    getAllTweets();
+    /* getAllTweets();
     // reset page to 1 (to be shown after scrolling down)
     setPage(1);
 
-    setHasMore(true);
+    setHasMore(true); */
   }
 
   async function updatePost(id, text) {
@@ -84,11 +79,11 @@ function ByMonFeed({submittedDate}) {
     let targetTweet = fetchedData.find((post) => post._id === id);
     targetTweet.tweetText = updatedTweet.tweetText;
     // refresh page 0
-    getAllTweets();
+/*     getAllTweets();
     // reset page to 1 (to be shown after scrolling down)
     setPage(1);
 
-    setHasMore(true);
+    setHasMore(true); */
   }
   async function updateLike(id, text) {
     let updatedTweet = await axios.patch("http://localhost:5000/like", {
@@ -102,19 +97,13 @@ function ByMonFeed({submittedDate}) {
         <span className="font-semibold text-xl">Search</span>
       </div>
       {/* go through each tweet in the allTweets json */}
-      <InfiniteScroll
-        loadMore={fetchData}
-        hasMore={!isFetching && hasMore && fetchedData.length >= 10}
-        loader={<h4 key={0}>Loading...</h4>}
-        initialLoad={false}
-        useWindow={false}
-      >
         {Object.keys(fetchedData).length !== 0 &&
           fetchedData.map((post) => {
             return (
               <Post
                 key={post._id}
                 displayName={user.name}
+                avatar={user.avatar}
                 text={post.tweetText}
                 image={post.tweetMedia}
                 video={post.tweetVideo}
@@ -125,11 +114,10 @@ function ByMonFeed({submittedDate}) {
                 deletePost={deletePost}
                 updatePost={updatePost}
                 updateLike={updateLike}
-                avatar={user.avatar}
+                {...post}
               />
             );
           })}
-      </InfiniteScroll>
     </div>
   );
 }

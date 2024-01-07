@@ -1,6 +1,6 @@
 import "./Home.css";
 import Sidebar from "./Sidebar";
-import FavFeed from "./FavFeed";
+import Feed from "./Feed";
 import Widgets from "./Widgets";
 import { UserContext } from "./UserContext";
 import React, { useState, useEffect } from "react";
@@ -44,7 +44,7 @@ function Home() {
             <Sidebar />
           </div>
           <div className="basis-3/5 h-screen">
-            <FavFeed />
+            <Feed isFav={true} />
           </div>
         </UserContext.Provider>
 

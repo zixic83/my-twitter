@@ -40,9 +40,7 @@ function Home() {
         <title>{title}</title>
         <meta name="description" />
       </Helmet>
-      <div
-        className="app flex"
-      >
+      <div className="min-h-screen flex">
         <UserContext.Provider
           value={{ updateUser, setUser, user, click, setClick }}
         >
@@ -50,7 +48,7 @@ function Home() {
             <Sidebar />
           </div>
           <div className="basis-3/5 h-screen grow-0">
-            <Feed />
+            <Feed isFav={false} />
           </div>
         </UserContext.Provider>
         <div className="basis-1/5 h-screen grow-0 fixed">
