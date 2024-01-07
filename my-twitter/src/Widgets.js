@@ -3,7 +3,7 @@ import './Widgets.css';
 
 function Widgets() {
   return (
-    <div className="widgets basis-1/5 h-screen">
+    <div className="widgets">
 
     </div>
   );

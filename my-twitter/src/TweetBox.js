@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext,useRef } from "react";
 import { UserContext } from "./UserContext";
 import axios from "axios";
 import "./TweetBox.css";
@@ -27,6 +27,7 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
   const [toShowMIcon, setToShowMIcon] = useState(false);
 
   const { user, setUser } = useContext(UserContext);
+  const ref = useRef(null);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -63,11 +64,14 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
   };
 
   function onEmojiClick(e) {
-    let sym = e.unified.split('-');
+    let sym = e.unified.split("-");
     let codesArray = [];
-    sym.forEach((el) => codesArray.push('0x' + el));
+    sym.forEach((el) => codesArray.push("0x" + el));
     let emoji = String.fromCodePoint(...codesArray);
-    setTweetText(tweetText + emoji);
+
+    /* https://stackoverflow.com/questions/66261433/add-emojis-to-input */
+    const cursor = ref.current.selectionStart;
+    setTweetText(tweetText.slice(0, cursor) + emoji + tweetText.slice(cursor));
   }
 
   return (
@@ -89,6 +93,7 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
           layout
           className="h-24 w-full outline-none placeholder:text-xl resize-none py-8"
           type="text"
+          ref={ref}
           placeholder="What's happening?"
           value={tweetText}
           onChange={(e) => setTweetText(e.target.value)}

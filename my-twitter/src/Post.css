@@ -36,9 +36,9 @@ a {
   color: '#1976d2'
 }
 
+.container:hover .overlay {
+  opacity: 0.1;
+  border-radius: 20px;
+}
 
 
-
-
-
-@import "react-image-gallery/styles/css/image-gallery.css";
