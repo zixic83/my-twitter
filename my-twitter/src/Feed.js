@@ -28,7 +28,7 @@ function Feed({isFav}) {
       `http://localhost:5000/all${isFav===false ? "Tweets" : "Favs"}?p=0`
     );
     setFetchedData(allTweets.data);
-    if (Object.keys(fetchedData).length !== 0) {
+/*     if (Object.keys(fetchedData).length !== 0) {
       fetchedData.map((post) => {
         return (
           <Post
@@ -39,7 +39,7 @@ function Feed({isFav}) {
           />
         );
       });
-    }
+    } */
   };
 
   async function fetchData() {
@@ -94,18 +94,23 @@ function Feed({isFav}) {
 
 
   return (
-    <div id="box" className="feed basis-3/5 h-screen" >
+    <div id="box" className="feed h-screen">{/* without h-screen, endless scrolling is not working */}
       {/*Header */}
       <div className="feed-header">
-        <div className="font-semibold text-xl">{isFav===false?'Home':'Favourites'}</div>
+        <div className="font-semibold text-xl">
+          {isFav === false ? "Home" : "Favourites"}
+        </div>
       </div>
-      {isFav === false ?
-      <TweetBox
-        setPage={setPage}
-        setHasMore={setHasMore}
-        getAllTweets={getAllTweets}
-      />:''}
-      
+      {isFav === false ? (
+        <TweetBox
+          setPage={setPage}
+          setHasMore={setHasMore}
+          getAllTweets={getAllTweets}
+        />
+      ) : (
+        ""
+      )}
+
       {/* go through each tweet in the allTweets json */}
       <InfiniteScroll
         loadMore={fetchData}

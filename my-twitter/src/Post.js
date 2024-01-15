@@ -224,8 +224,8 @@ function Post({
             src={avatar}
           />
 
-          <div layout className="w-full flex flex-col ">
-            <div className="flex items-center space-x-1">
+          <div layout className="w-full flex flex-col">
+            <div className="flex flex-col items-start  md:flex-row md:items-center md:space-x-1">
               <h3 layout className="mr-1 font-bold">
                 {displayName}
               </h3>
@@ -274,9 +274,7 @@ function Post({
               {parse(linkedText)}
             </div>
 
-            {tweetMedia && (
-              <img className="imgFig w-fit" src={tweetMedia} alt="" />
-            )}
+            {tweetMedia && <img className="imgFig" src={tweetMedia} alt="" />}
             {mediaFile}
             {/* Gallery */}
             {photoArray.length !== 0 && (
@@ -316,12 +314,12 @@ function Post({
               updateLike(_id);
             }}
             className="flex items-center group max-w-fit cursor-pointer px-2 py-2 rounded-full 
-      hover:bg-[#f918801a] transition-all duration-200"
+      hover:bg-[#f918801a] transition-all duration-200  "
           >
             {like ? (
-              <Heart1 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-[#f91880]" />
+              <Heart1 className="h-5 w-5 flex cursor-pointer items-center space-x-3 text-[#f91880] hover:scale-110" />
             ) : (
-              <Heart2 className="h-5 w-5 cursor-pointer  space-x-3 text-gray-400 group-hover:text-[#f91880]" />
+              <Heart2 className="h-5 w-5 cursor-pointer space-x-3 text-gray-400 group-hover:text-[#f91880] " />
             )}
           </div>
 

@@ -6,8 +6,7 @@ import { UserContext } from "./UserContext";
 import React, { useState, useEffect,useRef } from "react";
 import axios from "axios";
 import { HelmetProvider, Helmet } from "react-helmet-async";
-import useMediaQuery from "./useMediaQuery";
-import { Bars3Icon } from "@heroicons/react/24/outline";
+
 
 function Home() {
   const [user, setUser] = useState("");
@@ -40,18 +39,18 @@ function Home() {
         <title>{title}</title>
         <meta name="description" />
       </Helmet>
-      <div className="min-h-screen flex">
+      <div className="flex">
         <UserContext.Provider
           value={{ updateUser, setUser, user, click, setClick }}
         >
-          <div className="basis-1/5 h-screen">
+          <div className="hidden basis-1/5 xl:block">
             <Sidebar />
           </div>
-          <div className="basis-3/5 h-screen grow-0">
+          <div className="xl:basis-3/5 grow-0">
             <Feed isFav={false} />
           </div>
         </UserContext.Provider>
-        <div className="basis-1/5 h-screen grow-0 fixed">
+        <div className="hidden basis-1/5 grow-0 xl:block">
           <Widgets />
         </div>
       </div>

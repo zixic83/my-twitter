@@ -12,6 +12,7 @@ import {
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data/sets/14/twitter.json";
 import { motion, AnimatePresence } from "framer-motion";
+import { TextareaAutosize } from "@mui/base";
 
 
 
@@ -87,17 +88,18 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
           layout: { duration: 1 },
         }}
         onSubmit={handleSubmit}
-        className="flex flex-1 flex-col"
+        className="flex flex-1 flex-col "
       >
-        <motion.textarea
+        <TextareaAutosize
           layout
-          className="h-24 w-full outline-none placeholder:text-xl resize-none py-8"
+          className="w-full outline-none placeholder:text-xl resize-none pt-8 pb-3 inline-block inputBox "
           type="text"
           ref={ref}
           placeholder="What's happening?"
           value={tweetText}
           onChange={(e) => setTweetText(e.target.value)}
         />
+        <hr class="hidden mb-2 h-[1px] border-t-0 bg-[#e6ecf0] opacity-100 dark:opacity-50 line" />
 
         {toShowPIcon && (
           <AnimatePresence>
@@ -145,7 +147,7 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
             />
           </AnimatePresence>
         )}
-        <div className="flex items-center ">
+        <div className="flex items-center">
           <motion.div
             layout
             transition={{
@@ -191,7 +193,7 @@ function TweetBox({ getAllTweets, setPage, setHasMore }) {
             className="tweetBox-button disabled:opacity-40"
             type="submit"
           >
-            Tweet
+            Post
           </Button>
         </div>
       </motion.form>

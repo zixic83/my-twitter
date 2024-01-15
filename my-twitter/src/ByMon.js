@@ -54,7 +54,7 @@ function Home() {
 
         <div className="basis-1/5 h-screen">
           {/* <Widgets /> */}
-          <div className="widgets basis-1/5 h-screen m-8">
+          <div className="widgets basis-1/5 h-screen m-8 fixed">
             <Box textAlign="center">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker

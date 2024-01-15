@@ -6,7 +6,7 @@
     /* Inherit parent's style */
     text-transform: inherit !important;
     border-radius: 30px !important;
-    width: 80px;
+    width: 70px;
     height: 40px !important;
 
 }
@@ -15,5 +15,9 @@ textarea,input {
     background-color: rgba(0, 0, 0, 0);
     border-color: rgba(0, 0, 0, 0);
     outline:none;
+}
+
+.inputBox:focus ~ .line  {
+    display: block;
 }
 
