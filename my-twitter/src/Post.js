@@ -112,9 +112,20 @@ function Post({
   }
 
   /* Post date relevant to today's time */
-  let relevantDate = () => {
+  let relevantDate = (isEdited) => {
+
     /* Today */
     if (moment(timestamp).isSame(moment(), "day")) {
+      if (isEdited) {
+        return (
+          <p className="text-sm text-gray-500">
+            Edited:&nbsp;
+            <Moment fromNow className="text-sm text-gray-500">
+              {updatedAt}
+            </Moment>
+          </p>
+        );
+      }
       return (
         <Moment fromNow className="text-sm text-gray-500">
           {timestamp}
@@ -123,10 +134,33 @@ function Post({
     }
     /* Yesterday */
     if (moment(timestamp).isSame(moment().subtract(1, "day"), "day")) {
+      if (isEdited) {
+        return (
+          <p className="text-sm text-gray-500">
+            Edited:&nbsp;
+            <Moment
+              format="[Yesterday] HH:mm"
+              className="text-sm text-gray-500"
+            >
+              {updatedAt}
+            </Moment>
+          </p>
+        );
+      }
       return (
         <Moment format="[Yesterday] HH:mm" className="text-sm text-gray-500">
           {timestamp}
         </Moment>
+      );
+    }
+    if (isEdited) {
+      return (
+        <p className="text-sm text-gray-500">
+          Edited:&nbsp;
+          <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
+            {updatedAt}
+          </Moment>
+        </p>
       );
     }
     return (
@@ -251,11 +285,15 @@ function Post({
                     new Date(timestamp).getTime() <
                     20 ? (
                     ``
+                  ) : 
+                  updatedAt.substring(0, 4) ===
+                    new Date().getFullYear().toString() ? (
+                    relevantDate(true)
                   ) : (
                     <p className="text-sm text-gray-500">
                       Edited:&nbsp;
                       <Moment
-                        format="MMM DD HH:mm"
+                        format="YYYY MMM DD HH:mm"
                         className="text-sm text-gray-500"
                       >
                         {updatedAt}

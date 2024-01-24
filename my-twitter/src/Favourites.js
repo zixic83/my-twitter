@@ -33,7 +33,7 @@ function Home() {
   return (
     <HelmetProvider context={helmetContext}>
       <Helmet>
-        <title>{title}</title>
+        <title>Favourites - {title}</title>
         <meta
           name="favourites"
         />

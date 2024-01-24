@@ -20,4 +20,3 @@ textarea,input {
 .inputBox:focus ~ .line  {
     display: block;
 }
-

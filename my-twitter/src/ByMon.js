@@ -39,7 +39,7 @@ function Home() {
   return (
     <HelmetProvider context={helmetContext}>
       <Helmet>
-        <title>{title}</title>
+        <title>Search - {title}</title>
         <meta name="favourites" />
       </Helmet>
       <div className="app flex">
