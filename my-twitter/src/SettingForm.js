@@ -10,27 +10,14 @@ import { UserContext } from "./UserContext";
 function SettingForm({ setOpen, open, currentName, currentAvatar }) {
   const [name, setName] = useState(currentName);
   const [avatar, setAvatar] = useState(currentAvatar);
-
   const { updateUser, setUser } = useContext(UserContext);
 
   async function handleSubmit() {
     // handle, avatar
     const updatedUser = await updateUser(name, avatar);
     setUser({ name: updatedUser.data.name, avatar: updatedUser.data.avatar });
-
     setOpen(false);
   }
-
-/*   useEffect(() => {
-    const func = async () => {
-      const currentUser = await axios.get(`http://localhost:5000/user`);
-      setName(currentUser.data[0].name);
-      setAvatar(currentUser.data[0].avatar);
-    };
-    func();
-  }, []); */
-
-
 
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>

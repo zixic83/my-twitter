@@ -41,7 +41,12 @@ a {
   border-radius: 20px;
 }
 
-
+.dateStyle {
+  font-size: 0.875rem/* 14px */;
+    line-height: 1.25rem/* 20px */;
+    --tw-text-opacity: 1;
+    color: rgb(107 114 128 / var(--tw-text-opacity));
+}
 
 
 

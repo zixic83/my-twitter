@@ -16,12 +16,9 @@ import * as linkify from "linkifyjs";
 import parse from "html-react-parser";
 import axios from "axios";
 import { getImageSize } from "react-image-size";
+import ConfirmationBox from "./ConfirmationBox";
 
-import {
-  PhotoAlbum,
-  RenderPhoto,
-  RenderRowContainer,
-} from "react-photo-album";
+import { PhotoAlbum, RenderPhoto, RenderRowContainer } from "react-photo-album";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
@@ -50,6 +47,7 @@ function Post({
   const [title, setTitle] = useState("Loading...");
   const [index, setIndex] = useState(-1);
   const [array, setArray] = useState();
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     addToArray();
@@ -111,36 +109,37 @@ function Post({
     mediaFile = null;
   }
 
+
   /* Post date relevant to today's time */
   let relevantDate = (isEdited) => {
-
+    let assessedDate = isEdited ? updatedAt : timestamp;
     /* Today */
-    if (moment(timestamp).isSame(moment(), "day")) {
+    if (moment(assessedDate).isSame(moment(), "day")) {
       if (isEdited) {
         return (
-          <p className="text-sm text-gray-500">
+          <p className="dateStyle">
             Edited:&nbsp;
-            <Moment fromNow className="text-sm text-gray-500">
+            <Moment fromNow className="dateStyle">
               {updatedAt}
             </Moment>
           </p>
         );
       }
       return (
-        <Moment fromNow className="text-sm text-gray-500">
+        <Moment fromNow className="dateStyle">
           {timestamp}
         </Moment>
       );
     }
     /* Yesterday */
-    if (moment(timestamp).isSame(moment().subtract(1, "day"), "day")) {
+    if (moment(assessedDate).isSame(moment().subtract(1, "day"), "day")) {
       if (isEdited) {
         return (
-          <p className="text-sm text-gray-500">
+          <p className="dateStyle">
             Edited:&nbsp;
             <Moment
               format="[Yesterday] HH:mm"
-              className="text-sm text-gray-500"
+              className="dateStyle"
             >
               {updatedAt}
             </Moment>
@@ -148,23 +147,23 @@ function Post({
         );
       }
       return (
-        <Moment format="[Yesterday] HH:mm" className="text-sm text-gray-500">
+        <Moment format="[Yesterday] HH:mm" className="dateStyle">
           {timestamp}
         </Moment>
       );
     }
     if (isEdited) {
       return (
-        <p className="text-sm text-gray-500">
+        <p className="dateStyle">
           Edited:&nbsp;
-          <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
+          <Moment format="MMM DD HH:mm" className="dateStyle">
             {updatedAt}
           </Moment>
         </p>
       );
     }
     return (
-      <Moment format="MMM DD HH:mm" className="text-sm text-gray-500">
+      <Moment format="MMM DD HH:mm" className="dateStyle">
         {timestamp}
       </Moment>
     );
@@ -204,7 +203,7 @@ function Post({
         overflow: "hidden",
         position: "relative",
         borderRadius: 20,
-        marginBottom:4
+        marginBottom: 4,
       }}
       className="container"
     >
@@ -234,13 +233,13 @@ function Post({
         display: "flex",
         justifyContent: "flex-start",
         flexDirection: "row",
-        flexWrap: 'wrap',
-        
+        flexWrap: "wrap",
       }}
     >
       {children}
     </div>
   );
+
 
   return (
     <AnimatePresence>
@@ -269,10 +268,7 @@ function Post({
               new Date().getFullYear().toString() ? (
                 relevantDate()
               ) : (
-                <Moment
-                  format="YYYY MMM DD HH:mm"
-                  className="text-sm text-gray-500"
-                >
+                <Moment format="YYYY MMM DD HH:mm" className="dateStyle">
                   {timestamp}
                 </Moment>
               )}
@@ -285,17 +281,13 @@ function Post({
                     new Date(timestamp).getTime() <
                     20 ? (
                     ``
-                  ) : 
-                  updatedAt.substring(0, 4) ===
+                  ) : updatedAt.substring(0, 4) ===
                     new Date().getFullYear().toString() ? (
                     relevantDate(true)
                   ) : (
-                    <p className="text-sm text-gray-500">
+                    <p className="dateStyle">
                       Edited:&nbsp;
-                      <Moment
-                        format="YYYY MMM DD HH:mm"
-                        className="text-sm text-gray-500"
-                      >
+                      <Moment format="YYYY MMM DD HH:mm" className="dateStyle">
                         {updatedAt}
                       </Moment>
                     </p>
@@ -387,8 +379,16 @@ function Post({
             >
               <TrashIcon
                 className="h-5 w-5  cursor-pointer space-x-3 text-gray-400 group-hover:text-[#00ba7c]"
-                onClick={() => deletePost(_id)}
+                onClick={() => setShowConfirm(true)}
               />
+              {showConfirm && (
+                <ConfirmationBox
+                  id={_id}
+                  setOpen={setShowConfirm}
+                  open={showConfirm}
+                  deletePost={deletePost}
+                />
+              )}
             </div>
           </div>
         </div>
